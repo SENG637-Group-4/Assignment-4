@@ -2,18 +2,37 @@
 
 **Lab. Report \#4 – Mutation Testing and Web app testing**
 
-| Group \#:      |     |
-| -------------- | --- |
-| Student Names: |     |
-|                |     |
-|                |     |
-|                |     |
+| Group 4      |
+|-----------------|
+| Zohara Kamal            |   
+| Thanoshan Vijayanandan          |   
+| Minh Le                |   
+| Shuvam Agarwala              |
 
-# Introduction
+# 1. Introduction
 
-# Analysis of 10 Mutants of the Range class 
+# 2. Analysis of 10 Mutants of the Range class 
 
-# Report all the statistics and the mutation score for each test class
+# 3. Report all the statistics and the mutation score for each test class
+## 3.1 Range class
+### 3.1.1 Before
+#### Mutation score
+![alt text](./images/mutation_score_range_before_1.png)
+
+#### Mutation statistics
+![alt text](./images/mutation_stat_range_before_1.png)
+![alt text](./images/mutation_stat_range_before_2.png)
+
+
+## 3.1 DataUtilities class
+### 3.1.1 Before
+#### Mutation score
+![alt text](./images/mutation_score_datautilities_before_1.png)
+
+#### Mutation statistics
+![alt text](./images/mutation_stat_datautilities_before_1.png)
+
+![alt text](./images/mutation_stat_datautilities_before_2.png)
 
 # Analysis drawn on the effectiveness of each of the test classes
 
