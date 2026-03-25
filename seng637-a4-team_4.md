@@ -14,6 +14,13 @@
 # 2. Analysis of 10 Mutants of the Range class 
 
 # 3. Report all the statistics and the mutation score for each test class
+**The final test suite of Range class can be found here: JFreeChart_Lab4/src/org/jfree/data/rangetest**
+
+**The final test suite of DataUtilities class can be found here: JFreeChart_Lab4/src/org/jfree/data/datautilitiestest**
+
+TODO: hyper-link above
+TODO: remove before packages
+
 ## 3.1 Range class
 ### 3.1.1 Before
 #### Mutation score
@@ -26,6 +33,7 @@
 
 ## 3.1 DataUtilities class
 ### 3.1.1 Before
+TODO: Run again the DataUtilities mutation test (for before section) - uncomment source code.
 #### Mutation score
 ![alt text](./images/mutation_score_datautilities_before_1.png)
 
