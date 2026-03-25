@@ -130,12 +130,14 @@ public abstract class DataUtilities {
                 total += n.doubleValue();
             }
         }
-        for (int r2 = 0; r2 > rowCount; r2++) {
-            Number n = data.getValue(r2, column);
-            if (n != null) {
-                total += n.doubleValue();
-            }
-        }
+        // REMOVED: second loop `for (int r2 = 0; r2 > rowCount; r2++)`
+        // is dead code — condition is always false for rowCount >= 0.
+//        for (int r2 = 0; r2 > rowCount; r2++) {
+//            Number n = data.getValue(r2, column);
+//            if (n != null) {
+//                total += n.doubleValue();
+//            }
+//        }
         return total;
     }
 
@@ -191,12 +193,13 @@ public abstract class DataUtilities {
                 total += n.doubleValue();
             }
         }
-        for (int c2 = 0; c2 > columnCount; c2++) {
-            Number n = data.getValue(row, c2);
-            if (n != null) {
-                total += n.doubleValue();
-            }
-        }
+        // Commented dead code
+//        for (int c2 = 0; c2 > columnCount; c2++) {
+//            Number n = data.getValue(row, c2);
+//            if (n != null) {
+//                total += n.doubleValue();
+//            }
+//        }
         return total;
     }
 
@@ -287,12 +290,14 @@ public abstract class DataUtilities {
                 total = total + v.doubleValue();
             }
         }
-        for (int i2 = 0; i2 > data.getItemCount(); i2++) {
-            Number v = data.getValue(i2);
-            if (v != null) {
-                total = total + v.doubleValue();
-            }
-        }
+//        for (int i2 = 0; i2 > data.getItemCount(); i2++) {
+//            Number v = data.getValue(i2);
+//            if (v != null) {
+//                total = total + v.doubleValue();
+//            }
+//        }
+        // Commented: second loop `for (int i2 = 0; i2 > data.getItemCount(); i2++)`
+        // is dead code — condition is always false for getItemCount() >= 0.
         double runningTotal = 0.0;
         for (int i = 0; i < data.getItemCount(); i++) {
             Number v = data.getValue(i);

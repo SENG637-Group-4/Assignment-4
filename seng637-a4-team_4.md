@@ -34,6 +34,15 @@
 
 ![alt text](./images/mutation_stat_datautilities_before_2.png)
 
+### 3.1.2 After
+#### Mutation score
+![alt text](./images/mutation_score_datautilities_after_1.png)
+
+#### Mutation statistics
+![alt text](./images/mutation_stat_datautilities_after_1.png)
+
+![alt text](./images/mutation_stat_datautilities_after_2.png)
+
 # Analysis drawn on the effectiveness of each of the test classes
 
 # A discussion on the effect of equivalent mutants on mutation score accuracy

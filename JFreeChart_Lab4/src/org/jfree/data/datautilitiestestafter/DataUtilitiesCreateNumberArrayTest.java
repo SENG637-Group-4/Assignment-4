@@ -145,4 +145,48 @@ public class DataUtilitiesCreateNumberArrayTest {
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
     }
+    
+	 // Kills line 246: Less than to not equal
+	 // Three-element array — loop must run exactly 3 times.
+	 @Test
+	 public void createNumberArray_threeElements_allConvertedCorrectly() {
+	     double[] input = {10.0, 20.0, 30.0};
+	     Number[] result = DataUtilities.createNumberArray(input);
+	     assertEquals("Length must be 3", 3, result.length);
+	     assertEquals(10.0, result[0].doubleValue(), 1e-9);
+	     assertEquals(20.0, result[1].doubleValue(), 1e-9);
+	     assertEquals(30.0, result[2].doubleValue(), 1e-9);
+	 }
+	
+	 // Kills line 246: Substituted 0 with 1 on loop init — element 0 would be skipped
+	 @Test
+	 public void createNumberArray_firstElementMustNotBeSkipped() {
+	     double[] input = {42.0, 1.0, 1.0};
+	     Number[] result = DataUtilities.createNumberArray(input);
+	     assertNotNull("result[0] must not be null", result[0]);
+	     assertEquals("Element 0 must be 42.0 — must not be skipped by loop",
+	             42.0, result[0].doubleValue(), 1e-9);
+	 }
+	
+	 // Kills line 247: Incremented (a++) double array field, Decremented (a--) double array field
+	 // The stored value result[i] is read back; a post-increment mutant would store input[i]+1.
+	 @Test
+	 public void createNumberArray_storedValueMatchesInputExactly() {
+	     double[] input = {7.0, 13.0};
+	     Number[] result = DataUtilities.createNumberArray(input);
+	     assertEquals("result[0] must store 7.0 exactly — a++ mutant stores 8.0",
+	             7.0, result[0].doubleValue(), 1e-9);
+	     assertEquals("result[1] must store 13.0 exactly — a++ mutant stores 14.0",
+	             13.0, result[1].doubleValue(), 1e-9);
+	 }
+	
+	 // Kills line 247: Decremented (a--) double array field
+	 // Negative value: a-- would make it more negative.
+	 @Test
+	 public void createNumberArray_negativeValueStoredExactly() {
+	     double[] input = {-5.0};
+	     Number[] result = DataUtilities.createNumberArray(input);
+	     assertEquals("result[0] must be -5.0 exactly — a-- mutant gives -6.0",
+	             -5.0, result[0].doubleValue(), 1e-9);
+	 }
 }

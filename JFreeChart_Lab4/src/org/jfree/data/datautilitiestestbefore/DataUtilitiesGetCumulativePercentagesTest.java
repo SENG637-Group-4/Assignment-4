@@ -189,17 +189,6 @@ public class DataUtilitiesGetCumulativePercentagesTest {
     }
 
      
-    // TC10: null value within the dataset
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testTC10_nullValueInDataset_throwsNPE() {
-//        DefaultKeyedValues data = new DefaultKeyedValues();
-//        data.addValue(Integer.valueOf(0), null);
-//        data.addValue(Integer.valueOf(1), 4.0);
-//
-//        DataUtilities.getCumulativePercentages(data);
-//    }
-
-     
     // TC11: NaN value — IEEE 754 propagation
     // Input:  {0→NaN, 1→5}
     // Expect: all cumulative values are NaN (observe and document)

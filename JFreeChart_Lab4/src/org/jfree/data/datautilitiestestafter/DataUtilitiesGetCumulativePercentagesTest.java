@@ -283,6 +283,145 @@ public class DataUtilitiesGetCumulativePercentagesTest {
 	
 	     assertEquals(1.0, result.getValue(Integer.valueOf(2)).doubleValue(), DELTA);
 	 }
+	 
+	// TC15: Verify loop executes exactly itemCount times by checking all intermediate
+	// cumulative values precisely — kills "Less than to not equal" survivors on lines 284 & 297
+	// and post-increment/decrement survivors on lines 287 & 300.
+	// Input: {0→1, 1→2, 2→3, 3→4}  total = 10
+	// Expect: {0→0.1, 1→0.3, 2→0.6, 3→1.0}
+	@Test
+	public void testTC15_allIntermediateCumulativeValues_preciseCheck() {
+	    DefaultKeyedValues data = new DefaultKeyedValues();
+	    data.addValue(Integer.valueOf(0), 1.0);
+	    data.addValue(Integer.valueOf(1), 2.0);
+	    data.addValue(Integer.valueOf(2), 3.0);
+	    data.addValue(Integer.valueOf(3), 4.0);
+
+	    KeyedValues result = DataUtilities.getCumulativePercentages(data);
+
+	    assertEquals("Item count should be 4", 4, result.getItemCount());
+
+	    // Each intermediate value must be exact — post-increment/decrement mutations
+	    // on total or runningTotal would shift these values and be caught here
+	    assertEquals("Key 0 cumulative %", 0.1, result.getValue(Integer.valueOf(0)).doubleValue(), DELTA);
+	    assertEquals("Key 1 cumulative %", 0.3, result.getValue(Integer.valueOf(1)).doubleValue(), DELTA);
+	    assertEquals("Key 2 cumulative %", 0.6, result.getValue(Integer.valueOf(2)).doubleValue(), DELTA);
+	    assertEquals("Key 3 cumulative %", 1.0, result.getValue(Integer.valueOf(3)).doubleValue(), DELTA);
+	}
+
+	// TC16: Two-element dataset with unequal values — verifies the first cumulative entry
+	// is strictly between 0 and 1, killing "Less than to not equal" survivors on lines 284 & 297.
+	// If the loop ran 0 times (i != count mutant skipping when i==0 immediately), the
+	// result would be empty or have wrong values.
+	// Input: {0→3, 1→7}  total = 10
+	// Expect: {0→0.3, 1→1.0}
+	@Test
+	public void testTC16_twoElements_firstEntryStrictlyIntermediate() {
+	    DefaultKeyedValues data = new DefaultKeyedValues();
+	    data.addValue(Integer.valueOf(0), 3.0);
+	    data.addValue(Integer.valueOf(1), 7.0);
+
+	    KeyedValues result = DataUtilities.getCumulativePercentages(data);
+
+	    assertEquals("Item count should be 2", 2, result.getItemCount());
+	    assertEquals("Key 0 cumulative %", 0.3, result.getValue(Integer.valueOf(0)).doubleValue(), DELTA);
+	    assertEquals("Key 1 cumulative %", 1.0, result.getValue(Integer.valueOf(1)).doubleValue(), DELTA);
+
+	    // Confirm first value is strictly between 0 and 1 — if loop body was skipped,
+	    // runningTotal/total would be 0.0/10.0 = 0.0, not 0.3
+	    assertTrue("First cumulative % must be > 0.0",
+	            result.getValue(Integer.valueOf(0)).doubleValue() > 0.0);
+	    assertTrue("First cumulative % must be < 1.0",
+	            result.getValue(Integer.valueOf(0)).doubleValue() < 1.0);
+	}
+
+	// TC17: Validates total accumulation is exact by using values whose sum is sensitive
+	// to post-increment/decrement mutations on the accumulator variable (line 287 survivors).
+	// A mutant applying a++ or a-- to the running total BEFORE the division would produce
+	// a value off by 1 unit, which differs detectably when total is small.
+	// Input: {0→1, 1→1}  total = 2
+	// Expect: {0→0.5, 1→1.0}
+	// If runningTotal were post-incremented (a++) after addition, slot 0 would yield
+	// 1.0/2.0=0.5 still — but if the accumulator itself is mutated the total changes,
+	// making the first result != 0.5.
+	@Test
+	public void testTC17_smallTotalSensitiveToAccumulatorMutation() {
+	    DefaultKeyedValues data = new DefaultKeyedValues();
+	    data.addValue(Integer.valueOf(0), 1.0);
+	    data.addValue(Integer.valueOf(1), 1.0);
+
+	    KeyedValues result = DataUtilities.getCumulativePercentages(data);
+
+	    assertEquals("Item count should be 2", 2, result.getItemCount());
+	    assertEquals("Key 0 cumulative % must be exactly 0.5",
+	            0.5, result.getValue(Integer.valueOf(0)).doubleValue(), DELTA);
+	    assertEquals("Key 1 cumulative % must be exactly 1.0",
+	            1.0, result.getValue(Integer.valueOf(1)).doubleValue(), DELTA);
+
+	    // Explicit delta-tight assertion — any off-by-one in accumulator is caught
+	    assertTrue("Key 0 must not be > 0.5",
+	            result.getValue(Integer.valueOf(0)).doubleValue() <= 0.5 + DELTA);
+	    assertTrue("Key 0 must not be < 0.5",
+	            result.getValue(Integer.valueOf(0)).doubleValue() >= 0.5 - DELTA);
+	}
+
+	// TC18: Five-element dataset — ensures the second loop's dead condition (i2 > count)
+	// kills surviving mutations on line 290 by providing enough items that any accidental
+	// execution of the second loop would double-count the total, halving all results.
+	// Input: {0→2, 1→2, 2→2, 3→2, 4→2}  total = 10
+	// Expect: {0→0.2, 1→0.4, 2→0.6, 3→0.8, 4→1.0}
+	// If the dead second loop ran (doubling total to 20), all values would be halved.
+	@Test
+	public void testTC18_fiveEqualElements_secondLoopMustNotExecute() {
+	    DefaultKeyedValues data = new DefaultKeyedValues();
+	    data.addValue(Integer.valueOf(0), 2.0);
+	    data.addValue(Integer.valueOf(1), 2.0);
+	    data.addValue(Integer.valueOf(2), 2.0);
+	    data.addValue(Integer.valueOf(3), 2.0);
+	    data.addValue(Integer.valueOf(4), 2.0);
+
+	    KeyedValues result = DataUtilities.getCumulativePercentages(data);
+
+	    assertEquals("Item count should be 5", 5, result.getItemCount());
+
+	    // If the dead second loop ever ran, total = 20 and these would all be halved
+	    assertEquals("Key 0 cumulative %", 0.2, result.getValue(Integer.valueOf(0)).doubleValue(), DELTA);
+	    assertEquals("Key 1 cumulative %", 0.4, result.getValue(Integer.valueOf(1)).doubleValue(), DELTA);
+	    assertEquals("Key 2 cumulative %", 0.6, result.getValue(Integer.valueOf(2)).doubleValue(), DELTA);
+	    assertEquals("Key 3 cumulative %", 0.8, result.getValue(Integer.valueOf(3)).doubleValue(), DELTA);
+	    assertEquals("Key 4 cumulative %", 1.0, result.getValue(Integer.valueOf(4)).doubleValue(), DELTA);
+	}
+
+	// TC19: Asymmetric values with a strictly non-trivial intermediate — designed to
+	// detect post-increment/decrement survivors on runningTotal (line 300, mutations 10 & 11).
+	// The intermediate at index 1 is 0.25, which would shift to an incorrect value if
+	// runningTotal were incremented or decremented by 1 after the addition step.
+	// Input: {0→1, 1→3, 2→12}  total = 16
+	// Expect: {0→0.0625, 1→0.25, 2→1.0}
+	@Test
+	public void testTC19_runningTotalPostMutation_intermediateDetection() {
+	    DefaultKeyedValues data = new DefaultKeyedValues();
+	    data.addValue(Integer.valueOf(0), 1.0);
+	    data.addValue(Integer.valueOf(1), 3.0);
+	    data.addValue(Integer.valueOf(2), 12.0);
+
+	    KeyedValues result = DataUtilities.getCumulativePercentages(data);
+
+	    assertEquals("Item count should be 3", 3, result.getItemCount());
+
+	    assertEquals("Key 0 cumulative %", 1.0 / 16.0,
+	            result.getValue(Integer.valueOf(0)).doubleValue(), DELTA);
+	    assertEquals("Key 1 cumulative %", 4.0 / 16.0,
+	            result.getValue(Integer.valueOf(1)).doubleValue(), DELTA);
+	    assertEquals("Key 2 cumulative %", 1.0,
+	            result.getValue(Integer.valueOf(2)).doubleValue(), DELTA);
+
+	    // Tight range check on the intermediate — a mutated runningTotal of 5.0 instead
+	    // of 4.0 would yield 5/16 = 0.3125, which fails the 0.25 assertion above
+	    double v1 = result.getValue(Integer.valueOf(1)).doubleValue();
+	    assertTrue("Key 1 must be strictly less than 0.3", v1 < 0.3);
+	    assertTrue("Key 1 must be strictly greater than 0.2", v1 > 0.2);
+	}
     
     @After
     public void tearDown() throws Exception {

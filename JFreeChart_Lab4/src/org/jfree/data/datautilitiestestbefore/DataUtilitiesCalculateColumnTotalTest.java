@@ -178,34 +178,19 @@ public class DataUtilitiesCalculateColumnTotalTest {
     public void testTC14_nullData() {
         DataUtilities.calculateColumnTotal(null, 0);
     }
-    
-	 // TC_NEG1 – Negative row count: enters second loop, getValue returns non-null
-	 // Covers: second loop condition (true), n != null (true branch)
-	 // NOTE: This test will hang due to infinite loop bug in implementation
-//	 @Test(timeout = 1000)
-//	 public void testNegativeRowCount_nonNullValue_addsToTotal() {
-//	     context.checking(new Expectations() {{
-//	         allowing(values).getRowCount(); will(returnValue(-1));
-//	         allowing(values).getValue(with(any(Integer.class)), with(equal(0)));
-//	             will(returnValue(7.0));
-//	     }});
-//	
-//	     double result = DataUtilities.calculateColumnTotal(values, 0);
-//	     assertEquals(7.0, result, 1e-9);
-//	 }
 	
 	 // TC_NEG2 – Negative row count: enters second loop, getValue returns null
 	 // Covers: second loop condition (true), n != null (false branch)
 	 // NOTE: This test will hang due to infinite loop bug in implementation
-//	 @Test(timeout = 1000)
-//	 public void testNegativeRowCount_nullValue_returnsZero() {
-//	     context.checking(new Expectations() {{
-//	         allowing(values).getRowCount(); will(returnValue(-1));
-//	         allowing(values).getValue(with(any(Integer.class)), with(equal(0)));
-//	             will(returnValue(null));
-//	     }});
-//	
-//	     double result = DataUtilities.calculateColumnTotal(values, 0);
-//	     assertEquals(0.0, result, 1e-9);
-//	 }
+	 @Test(timeout = 1000)
+	 public void testNegativeRowCount_nullValue_returnsZero() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getRowCount(); will(returnValue(-1));
+	         allowing(values).getValue(with(any(Integer.class)), with(equal(0)));
+	             will(returnValue(null));
+	     }});
+	
+	     double result = DataUtilities.calculateColumnTotal(values, 0);
+	     assertEquals(0.0, result, 1e-9);
+	 }
 }

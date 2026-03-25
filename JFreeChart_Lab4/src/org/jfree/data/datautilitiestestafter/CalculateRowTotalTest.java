@@ -227,4 +227,70 @@ public class CalculateRowTotalTest {
 //	     double result = DataUtilities.calculateRowTotal(values, 0);
 //	     assertEquals(0.0, result, 1e-9); // null skipped, total stays 0
 //	 }
+	 
+	// Kills line 188: Less than to not equal
+	 @Test
+	 public void testTC_twoColumns_sumIsCorrect() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getColumnCount(); will(returnValue(2));
+	         allowing(values).getValue(0, 0); will(returnValue(3.0));
+	         allowing(values).getValue(0, 1); will(returnValue(4.0));
+	     }});
+	     assertEquals("3.0 + 4.0 = 7.0", 7.0,
+	             DataUtilities.calculateRowTotal(values, 0), 1e-9);
+	 }
+
+	 // Kills line 188: Substituted 0 with 1 on loop init — column 0 would be skipped
+	 @Test
+	 public void testTC_firstColumnMustNotBeSkipped() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getColumnCount(); will(returnValue(2));
+	         allowing(values).getValue(0, 0); will(returnValue(10.0));
+	         allowing(values).getValue(0, 1); will(returnValue(1.0));
+	     }});
+	     assertEquals("Column 0 must not be skipped; 10+1=11.0", 11.0,
+	             DataUtilities.calculateRowTotal(values, 0), 1e-9);
+	 }
+
+	 // Kills line 191: Incremented (a++) / Decremented (a--) on total accumulator
+	 @Test
+	 public void testTC_accumulatorExact_threeColumns() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getColumnCount(); will(returnValue(3));
+	         allowing(values).getValue(0, 0); will(returnValue(1.0));
+	         allowing(values).getValue(0, 1); will(returnValue(1.0));
+	         allowing(values).getValue(0, 2); will(returnValue(1.0));
+	     }});
+	     double result = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("1+1+1 must be exactly 3.0", 3.0, result, 1e-9);
+	     assertTrue("a++ mutant gives 2.0", result >= 3.0 - 1e-9);
+	     assertTrue("a-- mutant gives 4.0", result <= 3.0 + 1e-9);
+	 }
+
+	 // Kills line 194: dead second loop (c2 > columnCount) survivors
+	 // If dead loop ran, total would be doubled.
+	 @Test
+	 public void testTC_deadSecondLoopMustNotDoubleRowTotal() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getColumnCount(); will(returnValue(2));
+	         allowing(values).getValue(0, 0); will(returnValue(2.0));
+	         allowing(values).getValue(0, 1); will(returnValue(3.0));
+	     }});
+	     double result = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Dead loop must not run; 2+3=5, not 10", 5.0, result, 1e-9);
+	 }
+
+	 // Kills line 200: Incremented (a++) / Decremented (a--) on return value
+	 @Test
+	 public void testTC_returnValueIsExactRowSum() {
+	     context.checking(new Expectations() {{
+	         allowing(values).getColumnCount(); will(returnValue(2));
+	         allowing(values).getValue(0, 0); will(returnValue(4.0));
+	         allowing(values).getValue(0, 1); will(returnValue(6.0));
+	     }});
+	     double result = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Return must be 4+6=10 exactly", 10.0, result, 1e-9);
+	     assertTrue("a++ mutant returns 11.0", result < 10.5);
+	     assertTrue("a-- mutant returns 9.0",  result > 9.5);
+	 }
 }

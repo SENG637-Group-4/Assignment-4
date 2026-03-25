@@ -163,6 +163,51 @@ public class DataUtilitiesCreateNumberArray2DTest {
         }
     }
 
+	 // Kills line 264: Less than to not equal
+	 // Three outer rows — loop must run exactly 3 times.
+	 @Test
+	 public void createNumberArray2D_threeRows_allRowsConverted() {
+	     double[][] input = {{1.0}, {2.0}, {3.0}};
+	     Number[][] result = DataUtilities.createNumberArray2D(input);
+	     assertEquals("Must have 3 rows", 3, result.length);
+	     assertEquals(1.0, result[0][0].doubleValue(), 1e-9);
+	     assertEquals(2.0, result[1][0].doubleValue(), 1e-9);
+	     assertEquals(3.0, result[2][0].doubleValue(), 1e-9);
+	 }
+	
+	 // Kills line 264: Substituted 0 with 1 on loop init — row 0 would be skipped
+	 @Test
+	 public void createNumberArray2D_firstRowMustNotBeSkipped() {
+	     double[][] input = {{99.0, 88.0}, {1.0, 2.0}};
+	     Number[][] result = DataUtilities.createNumberArray2D(input);
+	     assertNotNull("result[0] must not be null", result[0]);
+	     assertEquals("result[0][0] must be 99.0 — first row must not be skipped",
+	             99.0, result[0][0].doubleValue(), 1e-9);
+	 }
+	
+	 // Kills line 264: Less than to not equal with 4 rows — confirms exact iteration count
+	 @Test
+	 public void createNumberArray2D_fourRows_allRowsConvertedCorrectly() {
+	     double[][] input = {{1.0}, {2.0}, {3.0}, {4.0}};
+	     Number[][] result = DataUtilities.createNumberArray2D(input);
+	     assertEquals(4, result.length);
+	     assertEquals(1.0, result[0][0].doubleValue(), 1e-9);
+	     assertEquals(2.0, result[1][0].doubleValue(), 1e-9);
+	     assertEquals(3.0, result[2][0].doubleValue(), 1e-9);
+	     assertEquals(4.0, result[3][0].doubleValue(), 1e-9);
+	 }
+	
+	 // Confirms values inside each row are correctly delegated to createNumberArray
+	 @Test
+	 public void createNumberArray2D_innerValuesAreCorrect() {
+	     double[][] input = {{5.0, 6.0}, {7.0, 8.0}};
+	     Number[][] result = DataUtilities.createNumberArray2D(input);
+	     assertEquals(5.0, result[0][0].doubleValue(), 1e-9);
+	     assertEquals(6.0, result[0][1].doubleValue(), 1e-9);
+	     assertEquals(7.0, result[1][0].doubleValue(), 1e-9);
+	     assertEquals(8.0, result[1][1].doubleValue(), 1e-9);
+	 }
+    
     @After
     public void tearDown() throws Exception {
     }
