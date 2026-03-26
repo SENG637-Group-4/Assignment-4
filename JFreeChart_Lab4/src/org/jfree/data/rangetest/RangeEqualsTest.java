@@ -206,4 +206,60 @@ public class RangeEqualsTest {
         Range r2 = new Range(Double.NEGATIVE_INFINITY, 1.0);
         assertFalse(r1.equals(r2));
     }
+    
+ // Kills M1, M2: non-Range object must return false
+    @Test
+    public void equalsReturnsFalseForString() {
+        assertFalse("Range.equals(String) must return false",
+                new Range(1.0, 5.0).equals("Range[1.0,5.0]"));
+    }
+
+    // Kills M1, M2: null must return false
+    @Test
+    public void equalsReturnsFalseForNull() {
+        assertFalse("Range.equals(null) must return false",
+                new Range(1.0, 5.0).equals(null));
+    }
+
+    // Kills M1, M2: Integer must return false
+    @Test
+    public void equalsReturnsFalseForInteger() {
+        assertFalse("Range.equals(Integer) must return false",
+                new Range(0.0, 1.0).equals(42));
+    }
+
+    // Kills M3, M4: same upper, different lower → not equal
+    @Test
+    public void equalsReturnsFalseWhenLowerDiffers() {
+        assertFalse("Ranges with different lower bounds must not be equal",
+                new Range(1.0, 5.0).equals(new Range(2.0, 5.0)));
+    }
+
+    // Kills M5, M6: same lower, different upper → not equal
+    @Test
+    public void equalsReturnsFalseWhenUpperDiffers() {
+        assertFalse("Ranges with different upper bounds must not be equal",
+                new Range(1.0, 5.0).equals(new Range(1.0, 6.0)));
+    }
+
+    // Kills M7: identical range must return true (not false)
+    @Test
+    public void equalsReturnsTrueForIdenticalRange() {
+        assertTrue("Identical ranges must be equal",
+                new Range(3.0, 7.0).equals(new Range(3.0, 7.0)));
+    }
+
+    // Kills M7 + M3 + M5: reflexivity — a range equals itself
+    @Test
+    public void equalsIsReflexive() {
+        Range r = new Range(-2.0, 4.0);
+        assertTrue("Range.equals(itself) must be true", r.equals(r));
+    }
+
+    // Kills M3 + M5 together: both bounds differ
+    @Test
+    public void equalsReturnsFalseWhenBothBoundsDiffer() {
+        assertFalse("Ranges with completely different bounds must not be equal",
+                new Range(0.0, 1.0).equals(new Range(5.0, 10.0)));
+    }
 }

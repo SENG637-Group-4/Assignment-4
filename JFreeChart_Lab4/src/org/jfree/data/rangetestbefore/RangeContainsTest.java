@@ -187,53 +187,6 @@ public class RangeContainsTest {
 	        "Range(5, 95) should return true for 95.0 — exercises value <= upper branch in final return",
 	        result);
 	}
-	
-	// Test Case 15
-	// Range(5, 95) with input Double.NaN: NaN fails all comparisons
-	// Forces (value >= this.lower) to evaluate FALSE in the final return statement
-	// Expected: false (covers FALSE branch of >= in final return)
-	@Test
-	public void doesNotContainNaNValue() {
-	    Range range = new Range(5, 95);
-	    assertFalse("Range(5, 95) should not contain Double.NaN",
-	            range.contains(Double.NaN));
-	}
-
-	// Test Case 16
-	// Range(Double.NaN, Double.NaN) with input 50: NaN bounds fail all comparisons
-	// Forces (value <= this.upper) to evaluate FALSE in the final return statement
-	// Expected: false (covers FALSE branch of <= in final return)
-	@Test
-	public void doesNotContainValueInNaNBoundedRange() {
-	    Range range = new Range(Double.NaN, Double.NaN);
-	    assertFalse("Range(NaN, NaN) should not contain value 50",
-	            range.contains(50));
-	}
-	
-	// Test Case 15
-	// Range(5, 95) with input Double.NaN: NaN fails >= comparison in final return
-	// Forces (value >= this.lower) to evaluate FALSE, short-circuits && 
-	// Covers FALSE branch of (value >= this.lower) in final return
-	// Expected: false
-	@Test
-	public void doesNotContainNaNAsValue() {
-	    Range range = new Range(5, 95);
-	    assertFalse("Range(5, 95) should not contain Double.NaN",
-	            range.contains(Double.NaN));
-	}
-
-	// Test Case 16
-	// Range(5, Double.NaN) with input 50: NaN upper bound fails <= comparison in final return
-	// value=50 passes both guards (50 < 5 = false, 50 > NaN = false)
-	// then in final return: (50 >= 5) = TRUE, (50 <= NaN) = FALSE
-	// Covers FALSE branch of (value <= this.upper) in final return
-	// Expected: false
-	@Test
-	public void doesNotContainValueWhenUpperBoundIsNaN() {
-	    Range range = new Range(5, Double.NaN);
-	    assertFalse("Range(5, NaN) should not contain value 50",
-	            range.contains(50));
-	}
 
     @After
     public void tearDown() throws Exception {

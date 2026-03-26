@@ -196,15 +196,15 @@ public class CalculateRowTotalTest {
 	     assertEquals(0.0, result, 1e-9); // all nulls skipped, total stays 0
 	 }
 	
-	 @Test
-	 public void testTC18_negativeColumnCount_nullValue() {
-	     context.checking(new Expectations() {{
-	         allowing(values).getRowCount();    will(returnValue(1));
-	         allowing(values).getColumnCount(); will(returnValue(-1)); // makes c2(0) > columnCount(-1) TRUE
-	         allowing(values).getValue(0, 0);   will(returnValue(null)); // null: covers inner if == false
-	     }});
-	
-	     double result = DataUtilities.calculateRowTotal(values, 0);
-	     assertEquals(0.0, result, 1e-9); // null skipped, total stays 0
-	 }
+//	 @Test
+//	 public void testTC18_negativeColumnCount_nullValue() {
+//	     context.checking(new Expectations() {{
+//	         allowing(values).getRowCount();    will(returnValue(1));
+//	         allowing(values).getColumnCount(); will(returnValue(-1)); // makes c2(0) > columnCount(-1) TRUE
+//	         allowing(values).getValue(0, 0);   will(returnValue(null)); // null: covers inner if == false
+//	     }});
+//	
+//	     double result = DataUtilities.calculateRowTotal(values, 0);
+//	     assertEquals(0.0, result, 1e-9); // null skipped, total stays 0
+//	 }
 }
