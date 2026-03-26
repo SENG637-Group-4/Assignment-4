@@ -115,4 +115,145 @@ public class RangeConstrainTest {
         assertTrue("constrain(NaN): NaN comparisons are always false, so result stays NaN",
                 Double.isNaN(result));
     }
+    
+    @Test
+    public void constrainValueJustAboveLowerBound_MustReturnItself() {
+        // value = -4.9999 is strictly inside (-5, 5); must return -4.9999 unchanged.
+        // "not equal to less than" mutant would misroute this into the if-block.
+        assertEquals("Value just above lower bound must be returned unchanged",
+                -4.9999, range.constrain(-4.9999), 1e-9);
+    }
+
+    @Test
+    public void constrainValueJustBelowUpperBound_MustReturnItself() {
+        // value = 4.9999 is strictly inside (-5, 5); must return 4.9999 unchanged.
+        // "not equal to greater than" mutant would misroute this into the if-block.
+        assertEquals("Value just below upper bound must be returned unchanged",
+                4.9999, range.constrain(4.9999), 1e-9);
+    }
+
+    @Test
+    public void constrainWithDegenerateRange_ValueAbovePoint_ClampsToPoint() {
+        // Range [3, 3]: only value 3.0 is "inside". Value 3.0001 is above.
+        // Line 212: (3.0001 > 3.0) → true → result = 3.0.
+        // "Less or equal to less than" mutant: (3.0001 >= 3.0) → also true → same result.
+        // "changed conditional boundary" → (3.0001 >= 3.0) → same.
+        // Use value = 3.0 + epsilon where epsilon is so small that boundary matters:
+        Range point = new Range(3.0, 3.0);
+        assertEquals("Value above degenerate range must clamp to 3.0",
+                3.0, point.constrain(3.5), 1e-9);
+    }
+
+    @Test
+    public void constrainWithDegenerateRange_ValueBelowPoint_ClampsToPoint() {
+        Range point = new Range(3.0, 3.0);
+        assertEquals("Value below degenerate range must clamp to 3.0",
+                3.0, point.constrain(2.5), 1e-9);
+    }
+
+    @Test
+    public void constrainWithDegenerateRange_ValueAtPoint_ReturnsPoint() {
+        Range point = new Range(3.0, 3.0);
+        assertEquals("Value exactly at degenerate range point must return that point",
+                3.0, point.constrain(3.0), 1e-9);
+    }
+
+    @Test
+    public void constrainUpperNotCorruptedAfterClamping_PostIncrementMutant() {
+        // First call: value=10 > upper=5 → result = upper = 5.
+        // If a++ mutant: upper becomes 6 after first call.
+        // Second call: value=10 > upper=6 → result = 6 (wrong!).
+        assertEquals("First clamp to upper must return 5.0", 5.0, range.constrain(10.0), 1e-9);
+        assertEquals("Second clamp to upper must still return 5.0 (field not corrupted)",
+                5.0, range.constrain(10.0), 1e-9);
+    }
+
+    @Test
+    public void constrainUpperNotCorruptedAfterClamping_PostDecrementMutant() {
+        // If a-- mutant: upper becomes 4 after first call.
+        // Second call: value=10 > upper=4 → result = 4 (wrong!).
+        assertEquals("First clamp to upper must return 5.0", 5.0, range.constrain(10.0), 1e-9);
+        assertEquals("Second clamp to upper must still return 5.0 (field not decremented)",
+                5.0, range.constrain(10.0), 1e-9);
+        // Also verify that a value that WAS inside the range is still inside
+        assertEquals("After clamping, interior value must still be returned unchanged",
+                3.0, range.constrain(3.0), 1e-9);
+    }
+
+    @Test
+    public void constrainLowerNotCorruptedAfterClamping_PostIncrementMutant() {
+        // If a++ mutant on lower: lower becomes -4 after first call.
+        // Second call: value=-10 enters outer-if; (-10 > upper=5)? No.
+        // (-10 < lower=-4)? Yes → result = -4 (wrong, should be -5).
+        assertEquals("First clamp to lower must return -5.0", -5.0, range.constrain(-10.0), 1e-9);
+        assertEquals("Second clamp to lower must still return -5.0 (field not corrupted)",
+                -5.0, range.constrain(-10.0), 1e-9);
+    }
+
+    @Test
+    public void constrainLowerNotCorruptedAfterClamping_PostDecrementMutant() {
+        // If a-- mutant on lower: lower becomes -6 after first call.
+        // Second call: value=-5.5 → contains(-5.5)? (-5.5 < lower=-6)? No. (-5.5 > 5)? No.
+        // So contains = true (wrong because lower shifted). result = -5.5 (wrong).
+        assertEquals("First clamp to lower must return -5.0", -5.0, range.constrain(-10.0), 1e-9);
+        assertEquals("Second clamp to lower must still return -5.0 (field not decremented)",
+                -5.0, range.constrain(-10.0), 1e-9);
+        // Verify interior value still works after clamping
+        assertEquals("After clamping, interior value must still be returned unchanged",
+                -3.0, range.constrain(-3.0), 1e-9);
+    }
+
+    @Test
+    public void constrainWithIntegerRange_ValueOneAboveUpper_ClampsExactly() {
+        Range r = new Range(0.0, 10.0);
+        // value=11: exactly 1 above upper=10.
+        // a++ mutant on upper: result = 10 (original), upper becomes 11.
+        // Next call with value=10.5: (10.5 > 11)? NO → then (10.5 < 0)? No → result=10.5 (WRONG).
+        assertEquals(10.0, r.constrain(11.0), 1e-9);
+        assertEquals("Upper field must not have been incremented",
+                10.0, r.constrain(10.5), 1e-9);
+    }
+
+    @Test
+    public void constrainWithIntegerRange_ValueOneBelowLower_ClampsExactly() {
+        Range r = new Range(0.0, 10.0);
+        // value=-1: exactly 1 below lower=0.
+        assertEquals(0.0, r.constrain(-1.0), 1e-9);
+        assertEquals("Lower field must not have been incremented",
+                0.0, r.constrain(-0.5), 1e-9);
+    }
+
+    @Test
+    public void constrainMidpointAndOutsideValue_BothCorrect() {
+        // Inside: midpoint returns itself
+        assertEquals(0.0, range.constrain(0.0), 1e-9);
+        // Outside above: clamps to upper
+        assertEquals(5.0, range.constrain(7.0), 1e-9);
+        // Outside below: clamps to lower
+        assertEquals(-5.0, range.constrain(-7.0), 1e-9);
+    }
+
+    @Test
+    public void constrainPositiveRange_InsideAndOutside() {
+        Range pos = new Range(2.0, 8.0);
+        // Inside
+        assertEquals(5.0, pos.constrain(5.0), 1e-9);
+        // Above upper
+        assertEquals(8.0, pos.constrain(10.0), 1e-9);
+        // Below lower
+        assertEquals(2.0, pos.constrain(0.0), 1e-9);
+    }
+
+    @Test
+    public void constrainRemoveContainsMutant_ExteriorValueMustClamp() {
+        // If contains() call is removed and replaced with false (always-false),
+        // the outer if is never entered → exterior values not clamped → WRONG.
+        assertEquals("Above upper must clamp even if contains() removed",
+                5.0, range.constrain(6.0), 1e-9);
+        assertEquals("Below lower must clamp even if contains() removed",
+                -5.0, range.constrain(-6.0), 1e-9);
+        // This pair combined with an interior test kills the "always false" variant.
+        assertEquals("Interior must return itself",
+                1.0, range.constrain(1.0), 1e-9);
+    }
 }

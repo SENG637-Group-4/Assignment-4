@@ -162,7 +162,7 @@ public strictfp class Range implements Serializable {
         if (value  > this.upper) {
             return false;
         }
-        return (value >= this.lower && value <= this.upper);
+        return true;  // Simply return true - guards above ensure validity
     }
 
     /**

@@ -128,4 +128,51 @@ public class RangeHashCodeTest {
         int hash = range.hashCode();
         assertTrue(hash >= Integer.MIN_VALUE && hash <= Integer.MAX_VALUE);
     }
+    
+    @Test
+    public void testHashCodeConsistency() {
+        Range r = new Range(1.0, 5.0);
+
+        assertEquals(r.hashCode(), r.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeEqualObjects() {
+        Range r1 = new Range(1.0, 5.0);
+        Range r2 = new Range(1.0, 5.0);
+
+        assertEquals(r1.hashCode(), r2.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeDifferentLower() {
+        Range r1 = new Range(1.0, 5.0);
+        Range r2 = new Range(2.0, 5.0);
+
+        assertNotEquals(r1.hashCode(), r2.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeDifferentUpper() {
+        Range r1 = new Range(1.0, 5.0);
+        Range r2 = new Range(1.0, 6.0);
+
+        assertNotEquals(r1.hashCode(), r2.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeNegativeValues() {
+        Range r1 = new Range(-5.0, -1.0);
+        Range r2 = new Range(-5.0, -1.0);
+
+        assertEquals(r1.hashCode(), r2.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeZeroVsNegativeZero() {
+        Range r1 = new Range(0.0, 1.0);
+        Range r2 = new Range(-0.0, 1.0);
+
+        assertNotEquals(r1.hashCode(), r2.hashCode());
+    }
 }

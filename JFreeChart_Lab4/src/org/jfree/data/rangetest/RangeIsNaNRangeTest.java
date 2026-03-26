@@ -46,4 +46,5 @@ public class RangeIsNaNRangeTest {
 
         assertFalse(r.isNaNRange());
     }
+    
 }

@@ -152,7 +152,160 @@ public class RangeShiftTest {
         assertEquals("Shifted range upper bound should be 1", 
                 1, result.getUpperBound(), .000000001d);
     }
+    
+    // Test Case 12
+    // Test with null base and allowZeroCrossing=false to kill mutant on line 387
+    @Test(expected = IllegalArgumentException.class)
+    public void shiftWithNullBaseAndFalseZeroCrossing() {
+        Range base = null;
+        Range.shift(base, 5.0, false);
+    }
 
+    // Test Case 13
+    // Test positive range with positive delta and allowZeroCrossing=true
+    // This ensures the allowZeroCrossing=true branch creates proper range
+    // Targets mutants 13 and 16 on lines 388-390
+    @Test
+    public void shiftPositiveRangeWithPositiveDeltaAllowingZeroCrossing() {
+        Range base = new Range(3, 8);
+        Range result = Range.shift(base, 4, true);
+        assertEquals("Shifted range lower bound should be 7", 
+                7, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be 12", 
+                12, result.getUpperBound(), .000000001d);
+    }
+
+    // Test Case 14
+    // Test negative range with negative delta and allowZeroCrossing=true
+    // Further targets mutants on lines 388-390
+    @Test
+    public void shiftNegativeRangeWithNegativeDeltaAllowingZeroCrossing() {
+        Range base = new Range(-10, -3);
+        Range result = Range.shift(base, -2, true);
+        assertEquals("Shifted range lower bound should be -12", 
+                -12, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be -5", 
+                -5, result.getUpperBound(), .000000001d);
+    }
+
+    // Test Case 15
+    // Test positive range with positive delta and allowZeroCrossing=false
+    // This exercises shiftWithNoZeroCrossing for both bounds
+    // Targets mutants 5, 6, 8 on lines 393-395
+    @Test
+    public void shiftPositiveRangeWithPositiveDeltaNoZeroCrossing() {
+        Range base = new Range(2, 7);
+        Range result = Range.shift(base, 3, false);
+        assertEquals("Shifted range lower bound should be 5", 
+                5, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be 10", 
+                10, result.getUpperBound(), .000000001d);
+    }
+
+    // Test Case 16
+    // Test negative range with negative delta and allowZeroCrossing=false
+    // Further exercises shiftWithNoZeroCrossing
+    @Test
+    public void shiftNegativeRangeWithNegativeDeltaNoZeroCrossing() {
+        Range base = new Range(-8, -2);
+        Range result = Range.shift(base, -3, false);
+        assertEquals("Shifted range lower bound should be -11", 
+                -11, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be -5", 
+                -5, result.getUpperBound(), .000000001d);
+    }
+
+    // Test Case 17
+    // Test range spanning zero with positive delta and allowZeroCrossing=false
+    // Exercises both lower and upper bound clamping differently
+    @Test
+    public void shiftSpanningRangeWithDeltaNoZeroCrossing() {
+        Range base = new Range(-3, 4);
+        Range result = Range.shift(base, 2, false);
+        assertEquals("Shifted range lower bound should be -1", 
+                -1, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be 6", 
+                6, result.getUpperBound(), .000000001d);
+    }
+
+    // Test Case 18
+    // Test with very small positive delta and allowZeroCrossing=true
+    @Test
+    public void shiftWithVerySmallPositiveDeltaAllowingZeroCrossing() {
+        Range base = new Range(-1, 1);
+        Range result = Range.shift(base, 0.001, true);
+        assertEquals("Shifted range lower bound should be -0.999", 
+                -0.999, result.getLowerBound(), .000000001d);
+        assertEquals("Shifted range upper bound should be 1.001", 
+                1.001, result.getUpperBound(), .000000001d);
+    }
+
+    // Range shift(Range base, double delta)
+    @Test
+    public void testShiftPositiveDelta() {
+        Range base = new Range(1.0, 5.0);
+
+        Range result = Range.shift(base, 2.0);
+
+        assertEquals(3.0, result.getLowerBound(), 0.0000001);
+        assertEquals(7.0, result.getUpperBound(), 0.0000001);
+    }
+    
+    @Test
+    public void testShiftNegativeDelta() {
+        Range base = new Range(3.0, 8.0);
+
+        Range result = Range.shift(base, -2.0);
+
+        assertEquals(1.0, result.getLowerBound(), 0.0000001);
+        assertEquals(6.0, result.getUpperBound(), 0.0000001);
+    }
+    
+    @Test
+    public void testShiftZeroDelta() {
+        Range base = new Range(2.0, 6.0);
+
+        Range result = Range.shift(base, 0.0);
+
+        assertEquals(2.0, result.getLowerBound(), 0.0000001);
+        assertEquals(6.0, result.getUpperBound(), 0.0000001);
+    }
+    
+    @Test
+    public void testShiftLargeDelta() {
+        Range base = new Range(1.0, 2.0);
+
+        Range result = Range.shift(base, 100.0);
+
+        assertEquals(101.0, result.getLowerBound(), 0.0000001);
+        assertEquals(102.0, result.getUpperBound(), 0.0000001);
+    }
+    
+    @Test
+    public void testShiftNegativeRange() {
+        Range base = new Range(-10.0, -5.0);
+
+        Range result = Range.shift(base, 3.0);
+
+        assertEquals(-7.0, result.getLowerBound(), 0.0000001);
+        assertEquals(-2.0, result.getUpperBound(), 0.0000001);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testShiftNullBase() {
+        Range.shift(null, 2.0);
+    }
+    
+    @Test
+    public void testShiftPrecision() {
+        Range base = new Range(1.0000001, 2.0000001);
+
+        Range result = Range.shift(base, 0.0000001);
+
+        assertEquals(1.0000002, result.getLowerBound(), 0.0000000001);
+        assertEquals(2.0000002, result.getUpperBound(), 0.0000000001);
+    }
+    
     @After
     public void tearDown() throws Exception {
     }

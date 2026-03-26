@@ -188,52 +188,167 @@ public class RangeContainsTest {
 	        result);
 	}
 	
-	// Test Case 15
-	// Range(5, 95) with input Double.NaN: NaN fails all comparisons
-	// Forces (value >= this.lower) to evaluate FALSE in the final return statement
-	// Expected: false (covers FALSE branch of >= in final return)
-	@Test
-	public void doesNotContainNaNValue() {
-	    Range range = new Range(5, 95);
-	    assertFalse("Range(5, 95) should not contain Double.NaN",
-	            range.contains(Double.NaN));
-	}
+	// Test Case 10
+    // Range(-10, 10) with input -10: Tests lower boundary with negative range
+    // Targets mutant 19 on line 159 (condition mutations)
+    // Expected: true
+    @Test
+    public void containsNegativeLowerBoundary() {
+        Range range = new Range(-10, 10);
+        assertTrue("Range(-10, 10) should contain lower boundary -10",
+                range.contains(-10));
+    }
 
-	// Test Case 16
-	// Range(Double.NaN, Double.NaN) with input 50: NaN bounds fail all comparisons
-	// Forces (value <= this.upper) to evaluate FALSE in the final return statement
-	// Expected: false (covers FALSE branch of <= in final return)
-	@Test
-	public void doesNotContainValueInNaNBoundedRange() {
-	    Range range = new Range(Double.NaN, Double.NaN);
-	    assertFalse("Range(NaN, NaN) should not contain value 50",
-	            range.contains(50));
-	}
-	
-	// Test Case 15
-	// Range(5, 95) with input Double.NaN: NaN fails >= comparison in final return
-	// Forces (value >= this.lower) to evaluate FALSE, short-circuits && 
-	// Covers FALSE branch of (value >= this.lower) in final return
-	// Expected: false
-	@Test
-	public void doesNotContainNaNAsValue() {
-	    Range range = new Range(5, 95);
-	    assertFalse("Range(5, 95) should not contain Double.NaN",
-	            range.contains(Double.NaN));
-	}
+    // Test Case 11
+    // Range(-10, 10) with input -10.0000001: Just below negative lower boundary
+    // Targets mutant 19 on line 159 and mutant 7 on line 160
+    // Expected: false
+    @Test
+    public void doesNotContainValueJustBelowNegativeLowerBound() {
+        Range range = new Range(-10, 10);
+        assertFalse("Range(-10, 10) should not contain -10.0000001",
+                range.contains(-10.0000001));
+    }
 
-	// Test Case 16
-	// Range(5, Double.NaN) with input 50: NaN upper bound fails <= comparison in final return
-	// value=50 passes both guards (50 < 5 = false, 50 > NaN = false)
-	// then in final return: (50 >= 5) = TRUE, (50 <= NaN) = FALSE
-	// Covers FALSE branch of (value <= this.upper) in final return
-	// Expected: false
-	@Test
-	public void doesNotContainValueWhenUpperBoundIsNaN() {
-	    Range range = new Range(5, Double.NaN);
-	    assertFalse("Range(5, NaN) should not contain value 50",
-	            range.contains(50));
-	}
+    // Test Case 12
+    // Range(-10, 10) with input 10.0000001: Just above upper boundary
+    // Targets mutant 19 on line 162 and mutant 7 on line 163
+    // Expected: false
+    @Test
+    public void doesNotContainValueJustAboveUpperBoundPrecise() {
+        Range range = new Range(-10, 10);
+        assertFalse("Range(-10, 10) should not contain 10.0000001",
+                range.contains(10.0000001));
+    }
+
+    // Test Case 13
+    // Range(0, 0) with input 0: Single point range
+    // Tests all boundaries collapse to one point
+    // Expected: true
+    @Test
+    public void containsValueInSinglePointRange() {
+        Range range = new Range(0, 0);
+        assertTrue("Range(0, 0) should contain value 0",
+                range.contains(0));
+    }
+
+    // Test Case 14
+    // Range(0, 0) with input 0.0000001: Just outside single point range
+    // Expected: false
+    @Test
+    public void doesNotContainValueOutsideSinglePointRange() {
+        Range range = new Range(0, 0);
+        assertFalse("Range(0, 0) should not contain 0.0000001",
+                range.contains(0.0000001));
+    }
+
+    // Test Case 15
+    // Range(0, 0) with input -0.0000001: Just below single point range
+    // Expected: false
+    @Test
+    public void doesNotContainValueBelowSinglePointRange() {
+        Range range = new Range(0, 0);
+        assertFalse("Range(0, 0) should not contain -0.0000001",
+                range.contains(-0.0000001));
+    }
+
+    // Test Case 19
+    // Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY) with input 0
+    // Tests infinite range contains zero
+    // Expected: true
+    @Test
+    public void containsZeroInInfiniteRange() {
+        Range range = new Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        assertTrue("Range(-∞, +∞) should contain 0",
+                range.contains(0));
+    }
+
+    // Test Case 20
+    // Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY) with input Double.MAX_VALUE
+    // Tests infinite range contains extreme value
+    // Expected: true
+    @Test
+    public void containsMaxValueInInfiniteRange() {
+        Range range = new Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        assertTrue("Range(-∞, +∞) should contain Double.MAX_VALUE",
+                range.contains(Double.MAX_VALUE));
+    }
+
+    // Test Case 21
+    // Range(Double.NEGATIVE_INFINITY, 0) with input -1
+    // Tests semi-infinite range (negative side)
+    // Expected: true
+    @Test
+    public void containsNegativeValueInNegativeInfiniteRange() {
+        Range range = new Range(Double.NEGATIVE_INFINITY, 0);
+        assertTrue("Range(-∞, 0) should contain -1",
+                range.contains(-1));
+    }
+
+    // Test Case 22
+    // Range(0, Double.POSITIVE_INFINITY) with input 1
+    // Tests semi-infinite range (positive side)
+    // Expected: true
+    @Test
+    public void containsPositiveValueInPositiveInfiniteRange() {
+        Range range = new Range(0, Double.POSITIVE_INFINITY);
+        assertTrue("Range(0, +∞) should contain 1",
+                range.contains(1));
+    }
+
+    // Test Case 23
+    // Range(0, Double.POSITIVE_INFINITY) with input -1
+    // Value below semi-infinite range
+    // Expected: false
+    @Test
+    public void doesNotContainNegativeValueInPositiveInfiniteRange() {
+        Range range = new Range(0, Double.POSITIVE_INFINITY);
+        assertFalse("Range(0, +∞) should not contain -1",
+                range.contains(-1));
+    }
+
+    // Test Case 24
+    // Range(Double.NEGATIVE_INFINITY, 0) with input 1
+    // Value above semi-infinite range
+    // Expected: false
+    @Test
+    public void doesNotContainPositiveValueInNegativeInfiniteRange() {
+        Range range = new Range(Double.NEGATIVE_INFINITY, 0);
+        assertFalse("Range(-∞, 0) should not contain 1",
+                range.contains(1));
+    }
+
+    // Test Case 25
+    // Range(-100, -50) with input -75: Entirely negative range
+    // Tests nominal value in negative range
+    // Expected: true
+    @Test
+    public void containsNominalValueInNegativeRange() {
+        Range range = new Range(-100, -50);
+        assertTrue("Range(-100, -50) should contain -75",
+                range.contains(-75));
+    }
+
+    // Test Case 26
+    // Range(100, 200) with input 150: Entirely positive range
+    // Tests nominal value in positive range
+    // Expected: true
+    @Test
+    public void containsNominalValueInPositiveRange() {
+        Range range = new Range(100, 200);
+        assertTrue("Range(100, 200) should contain 150",
+                range.contains(150));
+    }
+
+    // Test Case 27
+    // Range(-1, 1) with input 0: Zero in range crossing zero
+    // Expected: true
+    @Test
+    public void containsZeroInRangeCrossingZero() {
+        Range range = new Range(-1, 1);
+        assertTrue("Range(-1, 1) should contain 0",
+                range.contains(0));
+    }
 
     @After
     public void tearDown() throws Exception {

@@ -110,4 +110,49 @@ public class RangeToStringTest {
         Range range = new Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         assertEquals("Range[-Infinity,Infinity]", range.toString());
     }
+    
+    @Test
+    public void testToStringExact() {
+        Range r = new Range(1.0, 5.0);
+
+        String result = r.toString();
+
+        assertEquals("Range[1.0,5.0]", result);
+    }
+    
+    @Test
+    public void testToStringNegativeValues() {
+        Range r = new Range(-2.5, -1.5);
+
+        String result = r.toString();
+
+        assertEquals("Range[-2.5,-1.5]", result);
+    }
+    
+    @Test
+    public void testToStringPrecision() {
+        Range r = new Range(1.123456, 2.654321);
+
+        String result = r.toString();
+
+        assertEquals("Range[1.123456,2.654321]", result);
+    }
+    
+    @Test
+    public void testToStringZeroValues() {
+        Range r = new Range(0.0, 0.0);
+
+        String result = r.toString();
+
+        assertEquals("Range[0.0,0.0]", result);
+    }
+    
+    @Test
+    public void testToStringMixedValues() {
+        Range r = new Range(-1.0, 3.5);
+
+        String result = r.toString();
+
+        assertEquals("Range[-1.0,3.5]", result);
+    }
 }
