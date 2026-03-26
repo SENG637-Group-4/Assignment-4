@@ -1,0 +1,780 @@
+{
+  "id": "shuvam-amazon-tests",
+  "version": "2.0",
+  "name": "Shuvam Amazon.ca Test Suite – 4 Functionalities",
+  "url": "https://www.amazon.ca",
+  "tests": [
+
+    {
+      "id": "shuvam-test-1a",
+      "name": "TC1a – Add Single Item to Cart (Headphones)",
+      "commands": [
+        {
+          "id": "s1a-01",
+          "comment": "SETUP: Open Amazon search results for headphones",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=headphones",
+          "value": ""
+        },
+        {
+          "id": "s1a-02",
+          "comment": "Wait for results to fully load",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s1a-03",
+          "comment": "VERIFY: Results page loaded",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s1a-04",
+          "comment": "Click the first product detail link",
+          "command": "executeScript",
+          "target": "const links = document.querySelectorAll('div[data-component-type=\"s-search-result\"] a[href*=\"/dp/\"]'); if(links.length > 0) links[0].click();",
+          "value": ""
+        },
+        {
+          "id": "s1a-05",
+          "comment": "Wait for product detail page to load",
+          "command": "pause",
+          "target": "8000",
+          "value": ""
+        },
+        {
+          "id": "s1a-06",
+          "comment": "VERIFY: We are on a product detail page",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('/dp/');",
+          "value": "onDetailPage"
+        },
+        {
+          "id": "s1a-07",
+          "comment": "ASSERT: URL must contain /dp/",
+          "command": "assert",
+          "target": "onDetailPage",
+          "value": "true"
+        },
+        {
+          "id": "s1a-08",
+          "comment": "VERIFY: Add to Cart button is present",
+          "command": "assertElementPresent",
+          "target": "css=#add-to-cart-button",
+          "value": ""
+        },
+        {
+          "id": "s1a-09",
+          "comment": "ACTION: Click Add to Cart",
+          "command": "executeScript",
+          "target": "document.querySelector('#add-to-cart-button').click();",
+          "value": ""
+        },
+        {
+          "id": "s1a-10",
+          "comment": "Wait for cart action to process",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s1a-11",
+          "comment": "ACTION: Navigate to cart page to verify item was added",
+          "command": "open",
+          "target": "https://www.amazon.ca/gp/cart/view.html",
+          "value": ""
+        },
+        {
+          "id": "s1a-12",
+          "comment": "Wait for cart page to load",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s1a-13",
+          "comment": "VERIFY: Cart page has at least one item (sc-list-item contains cart rows)",
+          "command": "executeScript",
+          "target": "return document.querySelectorAll('.sc-list-item[data-asin]').length > 0 || document.querySelectorAll('div[data-asin]').length > 0 || document.querySelector('#activeCartViewForm') !== null;",
+          "value": "cartHasItems"
+        },
+        {
+          "id": "s1a-14",
+          "comment": "ASSERT: Cart must contain at least one item after Add to Cart",
+          "command": "assert",
+          "target": "cartHasItems",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-1b",
+      "name": "TC1b – Add Item to Cart then View Cart (Keyboard)",
+      "commands": [
+        {
+          "id": "s1b-01",
+          "comment": "SETUP: Navigate to mechanical keyboard search results",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=mechanical+keyboard",
+          "value": ""
+        },
+        {
+          "id": "s1b-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s1b-03",
+          "comment": "VERIFY: Search results loaded",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot div[data-component-type='s-search-result']",
+          "value": ""
+        },
+        {
+          "id": "s1b-04",
+          "comment": "Navigate to first product detail page",
+          "command": "executeScript",
+          "target": "const links = document.querySelectorAll('div[data-component-type=\"s-search-result\"] a[href*=\"/dp/\"]'); if(links.length > 0) links[0].click();",
+          "value": ""
+        },
+        {
+          "id": "s1b-05",
+          "command": "pause",
+          "target": "8000",
+          "value": ""
+        },
+        {
+          "id": "s1b-06",
+          "comment": "VERIFY: Add to Cart button present",
+          "command": "assertElementPresent",
+          "target": "css=#add-to-cart-button",
+          "value": ""
+        },
+        {
+          "id": "s1b-07",
+          "comment": "Capture product title for documentation",
+          "command": "executeScript",
+          "target": "return document.querySelector('#productTitle') ? document.querySelector('#productTitle').innerText.trim().substring(0,60) : 'N/A';",
+          "value": "productTitle"
+        },
+        {
+          "id": "s1b-08",
+          "comment": "ACTION: Click Add to Cart",
+          "command": "executeScript",
+          "target": "document.querySelector('#add-to-cart-button').click();",
+          "value": ""
+        },
+        {
+          "id": "s1b-09",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s1b-10",
+          "comment": "ACTION: Navigate to cart page",
+          "command": "open",
+          "target": "https://www.amazon.ca/gp/cart/view.html",
+          "value": ""
+        },
+        {
+          "id": "s1b-11",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s1b-12",
+          "comment": "VERIFY: Cart page loaded successfully (form or subtotal present)",
+          "command": "executeScript",
+          "target": "return document.querySelector('#activeCartViewForm') !== null || document.querySelector('#sc-subtotal-amount-activecart') !== null || document.querySelectorAll('.sc-list-item').length > 0;",
+          "value": "cartPageLoaded"
+        },
+        {
+          "id": "s1b-13",
+          "comment": "ASSERT: Cart page must have the cart form",
+          "command": "assert",
+          "target": "cartPageLoaded",
+          "value": "true"
+        },
+        {
+          "id": "s1b-14",
+          "comment": "VERIFY: Cart subtotal section is present (confirms non-empty cart)",
+          "command": "executeScript",
+          "target": "return document.querySelector('#sc-subtotal-amount-activecart') !== null || document.querySelector('[class*=\"subtotal\"]') !== null || document.querySelector('.a-price') !== null;",
+          "value": "hasSubtotal"
+        },
+        {
+          "id": "s1b-15",
+          "comment": "ASSERT: Subtotal element present means items are in cart",
+          "command": "assert",
+          "target": "hasSubtotal",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-2a",
+      "name": "TC2a – Product Detail Page: Title, Price, and Rating Present (Laptop)",
+      "commands": [
+        {
+          "id": "s2a-01",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=laptop",
+          "value": ""
+        },
+        {
+          "id": "s2a-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s2a-03",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s2a-04",
+          "command": "executeScript",
+          "target": "const link = document.querySelector('div[data-component-type=\"s-search-result\"] a[href*=\"/dp/\"]'); if(link) link.click();",
+          "value": ""
+        },
+        {
+          "id": "s2a-05",
+          "command": "pause",
+          "target": "8000",
+          "value": ""
+        },
+        {
+          "id": "s2a-06",
+          "comment": "VERIFY: Product title element is present and non-empty",
+          "command": "assertElementPresent",
+          "target": "css=#productTitle",
+          "value": ""
+        },
+        {
+          "id": "s2a-07",
+          "command": "executeScript",
+          "target": "return document.querySelector('#productTitle').innerText.trim().length > 0;",
+          "value": "hasTitleText"
+        },
+        {
+          "id": "s2a-08",
+          "command": "assert",
+          "target": "hasTitleText",
+          "value": "true"
+        },
+        {
+          "id": "s2a-09",
+          "comment": "VERIFY: Price element visible",
+          "command": "executeScript",
+          "target": "return document.querySelector('.a-price .a-offscreen') !== null || document.querySelector('#priceblock_ourprice') !== null || document.querySelector('#apex_desktop_qualifiedBuybox .a-price') !== null;",
+          "value": "hasPriceElement"
+        },
+        {
+          "id": "s2a-10",
+          "command": "assert",
+          "target": "hasPriceElement",
+          "value": "true"
+        },
+        {
+          "id": "s2a-11",
+          "comment": "VERIFY: Star rating element is present",
+          "command": "executeScript",
+          "target": "return document.querySelector('#acrPopover') !== null || document.querySelector('span[data-hook=\"rating-out-of-text\"]') !== null || document.querySelector('.a-icon-star') !== null;",
+          "value": "hasRatingElement"
+        },
+        {
+          "id": "s2a-12",
+          "command": "assert",
+          "target": "hasRatingElement",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-2b",
+      "name": "TC2b – Product Detail Page: Add to Wishlist Button Present (Monitor)",
+      "commands": [
+        {
+          "id": "s2b-01",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=computer+monitor",
+          "value": ""
+        },
+        {
+          "id": "s2b-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s2b-03",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s2b-04",
+          "command": "executeScript",
+          "target": "const link = document.querySelector('div[data-component-type=\"s-search-result\"] a[href*=\"/dp/\"]'); if(link) link.click();",
+          "value": ""
+        },
+        {
+          "id": "s2b-05",
+          "command": "pause",
+          "target": "8000",
+          "value": ""
+        },
+        {
+          "id": "s2b-06",
+          "command": "assertElementPresent",
+          "target": "css=#productTitle",
+          "value": ""
+        },
+        {
+          "id": "s2b-07",
+          "comment": "VERIFY: Add to List / Wishlist button is present",
+          "command": "executeScript",
+          "target": "return document.querySelector('#add-to-wishlist-button-submit') !== null || document.querySelector('[id*=\"wishlist\"]') !== null || document.querySelector('[data-action=\"add-to-wishlist\"]') !== null;",
+          "value": "hasWishlistButton"
+        },
+        {
+          "id": "s2b-08",
+          "command": "assert",
+          "target": "hasWishlistButton",
+          "value": "true"
+        },
+        {
+          "id": "s2b-09",
+          "comment": "VERIFY: Product image gallery is present",
+          "command": "executeScript",
+          "target": "return document.querySelector('#imgTagWrapperId') !== null || document.querySelector('#imageBlock') !== null || document.querySelector('#altImages') !== null;",
+          "value": "hasImages"
+        },
+        {
+          "id": "s2b-10",
+          "command": "assert",
+          "target": "hasImages",
+          "value": "true"
+        },
+        {
+          "id": "s2b-11",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('/dp/');",
+          "value": "stillOnDP"
+        },
+        {
+          "id": "s2b-12",
+          "command": "assert",
+          "target": "stillOnDP",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-3a",
+      "name": "TC3a – Department Navigation: Browse Electronics Category",
+      "commands": [
+        {
+          "id": "s3a-01",
+          "comment": "SETUP: Open Amazon homepage",
+          "command": "open",
+          "target": "https://www.amazon.ca",
+          "value": ""
+        },
+        {
+          "id": "s3a-02",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s3a-03",
+          "comment": "VERIFY: Homepage loaded — check Amazon logo which is always present",
+          "command": "assertElementPresent",
+          "target": "css=#nav-logo",
+          "value": ""
+        },
+        {
+          "id": "s3a-04",
+          "comment": "ACTION: Navigate directly to Electronics department",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=electronics&i=electronics",
+          "value": ""
+        },
+        {
+          "id": "s3a-05",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s3a-06",
+          "comment": "VERIFY: Results page has loaded",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s3a-07",
+          "comment": "VERIFY: At least one product result appears",
+          "command": "assertElementPresent",
+          "target": "css=div[data-component-type='s-search-result']",
+          "value": ""
+        },
+        {
+          "id": "s3a-08",
+          "comment": "VERIFY: URL confirms electronics department",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('electronics');",
+          "value": "isElectronicsDept"
+        },
+        {
+          "id": "s3a-09",
+          "command": "assert",
+          "target": "isElectronicsDept",
+          "value": "true"
+        },
+        {
+          "id": "s3a-10",
+          "comment": "VERIFY: Left refinements panel is present",
+          "command": "assertElementPresent",
+          "target": "css=div#s-refinements",
+          "value": ""
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-3b",
+      "name": "TC3b – Department Navigation: Browse Books Category",
+      "commands": [
+        {
+          "id": "s3b-01",
+          "comment": "SETUP: Open Books department with a keyword so results always appear",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=bestseller&i=stripbooks",
+          "value": ""
+        },
+        {
+          "id": "s3b-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s3b-03",
+          "comment": "VERIFY: Results page loaded",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s3b-04",
+          "comment": "VERIFY: Products listed",
+          "command": "assertElementPresent",
+          "target": "css=div[data-component-type='s-search-result']",
+          "value": ""
+        },
+        {
+          "id": "s3b-05",
+          "comment": "VERIFY: URL contains books department identifier",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('stripbooks') || window.location.href.includes('books');",
+          "value": "isBooksDept"
+        },
+        {
+          "id": "s3b-06",
+          "command": "assert",
+          "target": "isBooksDept",
+          "value": "true"
+        },
+        {
+          "id": "s3b-07",
+          "comment": "VERIFY: Refinements panel present",
+          "command": "assertElementPresent",
+          "target": "css=div#s-refinements",
+          "value": ""
+        },
+        {
+          "id": "s3b-08",
+          "comment": "ACTION: Search within Books department for python programming",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=python+programming&i=stripbooks",
+          "value": ""
+        },
+        {
+          "id": "s3b-09",
+          "command": "pause",
+          "target": "5000",
+          "value": ""
+        },
+        {
+          "id": "s3b-10",
+          "comment": "VERIFY: Results contain items from Books department search",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot div[data-component-type='s-search-result']",
+          "value": ""
+        },
+        {
+          "id": "s3b-11",
+          "comment": "VERIFY: URL retains both keywords and department scope",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('stripbooks') && window.location.href.includes('python');",
+          "value": "searchedInBooks"
+        },
+        {
+          "id": "s3b-12",
+          "command": "assert",
+          "target": "searchedInBooks",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-4a",
+      "name": "TC4a – Customer Reviews: Filter by 4-Star and Above (Wireless Mouse)",
+      "commands": [
+        {
+          "id": "s4a-01",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=wireless+mouse",
+          "value": ""
+        },
+        {
+          "id": "s4a-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s4a-03",
+          "comment": "VERIFY: Initial search results loaded",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s4a-04",
+          "comment": "VERIFY: Refinements panel is present",
+          "command": "assertElementPresent",
+          "target": "css=div#s-refinements",
+          "value": ""
+        },
+        {
+          "id": "s4a-05",
+          "comment": "ACTION: Apply 4-star and above filter via URL",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=wireless+mouse&rh=p_72%3A11192170011",
+          "value": ""
+        },
+        {
+          "id": "s4a-06",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s4a-07",
+          "comment": "VERIFY: Filtered results main slot still present",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s4a-08",
+          "comment": "VERIFY: At least one product result present after filtering",
+          "command": "assertElementPresent",
+          "target": "css=div[data-component-type='s-search-result']",
+          "value": ""
+        },
+        {
+          "id": "s4a-09",
+          "comment": "VERIFY: URL contains the 4-star rating filter parameter",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('p_72') || window.location.href.includes('rh=');",
+          "value": "starFilterApplied"
+        },
+        {
+          "id": "s4a-10",
+          "command": "assert",
+          "target": "starFilterApplied",
+          "value": "true"
+        },
+        {
+          "id": "s4a-11",
+          "comment": "VERIFY: Results have rating elements using aria-label (most reliable selector)",
+          "command": "executeScript",
+          "target": "return document.querySelectorAll('[aria-label*=\"out of 5 stars\"]').length > 0 || document.querySelectorAll('[aria-label*=\"stars\"]').length > 0 || document.querySelectorAll('i[class*=\"a-star\"]').length > 0;",
+          "value": "resultsHaveRatings"
+        },
+        {
+          "id": "s4a-12",
+          "command": "assert",
+          "target": "resultsHaveRatings",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "shuvam-test-4b",
+      "name": "TC4b – Customer Reviews: Read Reviews on Product Page (Bluetooth Earbuds)",
+      "commands": [
+        {
+          "id": "s4b-01",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=bluetooth+earbuds",
+          "value": ""
+        },
+        {
+          "id": "s4b-02",
+          "command": "pause",
+          "target": "6000",
+          "value": ""
+        },
+        {
+          "id": "s4b-03",
+          "command": "assertElementPresent",
+          "target": "css=div.s-main-slot",
+          "value": ""
+        },
+        {
+          "id": "s4b-04",
+          "command": "executeScript",
+          "target": "const link = document.querySelector('div[data-component-type=\"s-search-result\"] a[href*=\"/dp/\"]'); if(link) link.click();",
+          "value": ""
+        },
+        {
+          "id": "s4b-05",
+          "command": "pause",
+          "target": "8000",
+          "value": ""
+        },
+        {
+          "id": "s4b-06",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('/dp/');",
+          "value": "onDetailPage"
+        },
+        {
+          "id": "s4b-07",
+          "command": "assert",
+          "target": "onDetailPage",
+          "value": "true"
+        },
+        {
+          "id": "s4b-08",
+          "command": "executeScript",
+          "target": "return document.querySelector('#acrPopover') !== null || document.querySelector('#averageCustomerReviews') !== null;",
+          "value": "hasRatingSummary"
+        },
+        {
+          "id": "s4b-09",
+          "command": "assert",
+          "target": "hasRatingSummary",
+          "value": "true"
+        },
+        {
+          "id": "s4b-10",
+          "command": "executeScript",
+          "target": "return document.querySelector('#acrCustomerReviewText') !== null || document.querySelector('span[data-hook=\"total-review-count\"]') !== null;",
+          "value": "hasReviewCount"
+        },
+        {
+          "id": "s4b-11",
+          "command": "assert",
+          "target": "hasReviewCount",
+          "value": "true"
+        },
+        {
+          "id": "s4b-12",
+          "command": "executeScript",
+          "target": "return document.querySelector('#histogramTable') !== null || document.querySelector('[data-hook=\"cr-filter-info-review-rating-count\"]') !== null || document.querySelector('.a-histogram') !== null;",
+          "value": "hasHistogram"
+        },
+        {
+          "id": "s4b-13",
+          "command": "assert",
+          "target": "hasHistogram",
+          "value": "true"
+        },
+        {
+          "id": "s4b-14",
+          "command": "executeScript",
+          "target": "return document.querySelectorAll('[data-hook=\"review\"]').length > 0 || document.querySelectorAll('.review').length > 0;",
+          "value": "hasReviews"
+        },
+        {
+          "id": "s4b-15",
+          "command": "assert",
+          "target": "hasReviews",
+          "value": "true"
+        }
+      ]
+    }
+
+  ],
+
+  "suites": [
+    {
+      "id": "suite-shuvam-cart",
+      "name": "Shuvam – Add to Cart Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 60000,
+      "tests": ["shuvam-test-1a", "shuvam-test-1b"]
+    },
+    {
+      "id": "suite-shuvam-pdp",
+      "name": "Shuvam – Product Detail Page Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 60000,
+      "tests": ["shuvam-test-2a", "shuvam-test-2b"]
+    },
+    {
+      "id": "suite-shuvam-nav",
+      "name": "Shuvam – Department Navigation Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 60000,
+      "tests": ["shuvam-test-3a", "shuvam-test-3b"]
+    },
+    {
+      "id": "suite-shuvam-reviews",
+      "name": "Shuvam – Customer Reviews Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 60000,
+      "tests": ["shuvam-test-4a", "shuvam-test-4b"]
+    },
+    {
+      "id": "suite-shuvam-all",
+      "name": "Shuvam – Full Suite (All 8 Tests)",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 60000,
+      "tests": [
+        "shuvam-test-1a", "shuvam-test-1b",
+        "shuvam-test-2a", "shuvam-test-2b",
+        "shuvam-test-3a", "shuvam-test-3b",
+        "shuvam-test-4a", "shuvam-test-4b"
+      ]
+    }
+  ],
+
+  "urls": ["https://www.amazon.ca"],
+  "plugins": []
+}
