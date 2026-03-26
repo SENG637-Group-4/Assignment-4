@@ -1,0 +1,231 @@
+{
+  "id": "amazon-ca-full-suite",
+  "version": "2.0",
+  "name": "Amazon.ca Full Test Suite",
+  "url": "https://www.amazon.ca",
+  "tests": [
+
+    {
+      "id": "test-search-valid",
+      "name": "1. Search Valid Product",
+      "commands": [
+        { "id": "cmd-sv-1", "command": "open", "target": "https://www.amazon.ca", "value": "" },
+        { "id": "cmd-sv-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sv-3", "command": "executeScript", "target": "document.querySelector('input[name=\"field-keywords\"]').value = 'laptop';", "value": "" },
+        { "id": "cmd-sv-4", "command": "executeScript", "target": "document.querySelector('#nav-search-submit-button').click();", "value": "" },
+        { "id": "cmd-sv-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sv-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-sv-7", "command": "assertElementPresent", "target": "css=div[data-component-type='s-search-result']", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-search-invalid",
+      "name": "2. Search Invalid Product",
+      "commands": [
+        { "id": "cmd-si-1", "command": "open", "target": "https://www.amazon.ca", "value": "" },
+        { "id": "cmd-si-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-si-3", "command": "executeScript", "target": "document.querySelector('input[name=\"field-keywords\"]').value = 'asdkfjaskdf99999zzz';", "value": "" },
+        { "id": "cmd-si-4", "command": "executeScript", "target": "document.querySelector('#nav-search-submit-button').click();", "value": "" },
+        { "id": "cmd-si-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-si-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-si-7", "command": "executeScript", "target": "return document.querySelector('div.s-main-slot').innerText.includes('asdkfjaskdf99999zzz') || document.body.innerText.includes('No results') || document.body.innerText.includes('no results for') || document.querySelector('.s-no-outline') !== null;", "value": "noResultsFound" },
+        { "id": "cmd-si-8", "command": "assertElementPresent", "target": "css=div.s-main-slot div[data-component-type='s-search-result']", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-click-product",
+      "name": "3. Click First Product",
+      "commands": [
+        {
+          "id": "cmd-cp-1",
+          "command": "open",
+          "target": "https://www.amazon.ca/s?k=headphones",
+          "value": ""
+        },
+        { "id": "cmd-cp-2", "command": "pause", "target": "8000", "value": "" },
+        {
+          "id": "cmd-cp-3",
+          "command": "executeScript",
+          "target": "return document.querySelectorAll(\"div[data-component-type='s-search-result'] h2 a\").length;",
+          "value": "linkCount"
+        },
+        {
+          "id": "cmd-cp-4",
+          "command": "executeScript",
+          "target": "const links = document.querySelectorAll(\"div[data-component-type='s-search-result'] h2 a\"); const dpLink = Array.from(links).find(a => a.href.includes('/dp/')); if(dpLink){ window.location.href = dpLink.href; } else { const anyLink = document.querySelector('div.s-main-slot a[href*=\"/dp/\"]'); if(anyLink) window.location.href = anyLink.href; }",
+          "value": ""
+        },
+        { "id": "cmd-cp-5", "command": "pause", "target": "10000", "value": "" },
+        {
+          "id": "cmd-cp-6",
+          "command": "executeScript",
+          "target": "return window.location.href;",
+          "value": "currentURL"
+        },
+        {
+          "id": "cmd-cp-7",
+          "command": "executeScript",
+          "target": "return window.location.href.includes('/dp/');",
+          "value": "isProductPage"
+        },
+        {
+          "id": "cmd-cp-8",
+          "command": "assert",
+          "target": "isProductPage",
+          "value": "true"
+        }
+      ]
+    },
+
+    {
+      "id": "test-filter-prime",
+      "name": "4. Filter by Prime",
+      "commands": [
+        { "id": "cmd-fp-1", "command": "open", "target": "https://www.amazon.ca", "value": "" },
+        { "id": "cmd-fp-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fp-3", "command": "executeScript", "target": "document.querySelector('input[name=\"field-keywords\"]').value = 'monitor';", "value": "" },
+        { "id": "cmd-fp-4", "command": "executeScript", "target": "document.querySelector('#nav-search-submit-button').click();", "value": "" },
+        { "id": "cmd-fp-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fp-6", "command": "assertElementPresent", "target": "css=div#s-refinements", "value": "" },
+        { "id": "cmd-fp-7", "command": "executeScript", "target": "const primeLink = Array.from(document.querySelectorAll('#s-refinements a')).find(a => a.textContent.includes('Prime')); if(primeLink) primeLink.click();", "value": "" },
+        { "id": "cmd-fp-8", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fp-9", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-filter-price-range",
+      "name": "5. Filter by Price Range",
+      "commands": [
+        { "id": "cmd-fpr-1", "command": "open", "target": "https://www.amazon.ca/s?k=monitor", "value": "" },
+        { "id": "cmd-fpr-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fpr-3", "command": "assertElementPresent", "target": "css=div#s-refinements", "value": "" },
+        { "id": "cmd-fpr-4", "command": "executeScript", "target": "const low = document.querySelector('#low-price'); if(low){ low.value='100'; }", "value": "" },
+        { "id": "cmd-fpr-5", "command": "executeScript", "target": "const high = document.querySelector('#high-price'); if(high){ high.value='500'; }", "value": "" },
+        { "id": "cmd-fpr-6", "command": "executeScript", "target": "const btn = document.querySelector('input.a-button-input[aria-labelledby]'); if(btn) btn.click();", "value": "" },
+        { "id": "cmd-fpr-7", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fpr-8", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-filter-brand",
+      "name": "6. Filter by Brand",
+      "commands": [
+        { "id": "cmd-fb-1", "command": "open", "target": "https://www.amazon.ca/s?k=bluetooth+speaker", "value": "" },
+        { "id": "cmd-fb-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fb-3", "command": "assertElementPresent", "target": "css=div#s-refinements", "value": "" },
+        { "id": "cmd-fb-4", "command": "executeScript", "target": "const links = document.querySelectorAll('#s-refinements li span.a-list-item a'); if(links.length > 0) links[0].click();", "value": "" },
+        { "id": "cmd-fb-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-fb-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-sort-price-low-high",
+      "name": "7. Sort by Price Low to High",
+      "commands": [
+        { "id": "cmd-slh-1", "command": "open", "target": "https://www.amazon.ca/s?k=keyboard", "value": "" },
+        { "id": "cmd-slh-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-slh-3", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-slh-4", "command": "executeScript", "target": "const link = Array.from(document.querySelectorAll('a')).find(a => a.href && a.href.includes('price-asc-rank')); if(link) link.click();", "value": "" },
+        { "id": "cmd-slh-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-slh-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-slh-7", "command": "assertElementPresent", "target": "css=div[data-component-type='s-search-result']", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-sort-price-high-low",
+      "name": "8. Sort by Price High to Low",
+      "commands": [
+        { "id": "cmd-shl-1", "command": "open", "target": "https://www.amazon.ca/s?k=keyboard", "value": "" },
+        { "id": "cmd-shl-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-shl-3", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-shl-4", "command": "executeScript", "target": "const link = Array.from(document.querySelectorAll('a')).find(a => a.href && a.href.includes('price-desc-rank')); if(link) link.click();", "value": "" },
+        { "id": "cmd-shl-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-shl-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-shl-7", "command": "assertElementPresent", "target": "css=div[data-component-type='s-search-result']", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-sort-rating",
+      "name": "9. Sort by Average Customer Review",
+      "commands": [
+        { "id": "cmd-sr-1", "command": "open", "target": "https://www.amazon.ca/s?k=headphones", "value": "" },
+        { "id": "cmd-sr-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sr-3", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-sr-4", "command": "executeScript", "target": "const link = Array.from(document.querySelectorAll('a')).find(a => a.href && a.href.includes('review-rank')); if(link) link.click();", "value": "" },
+        { "id": "cmd-sr-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sr-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-sr-7", "command": "assertElementPresent", "target": "css=div[data-component-type='s-search-result']", "value": "" }
+      ]
+    },
+
+    {
+      "id": "test-sort-featured",
+      "name": "10. Sort by Featured",
+      "commands": [
+        { "id": "cmd-sf-1", "command": "open", "target": "https://www.amazon.ca/s?k=laptop", "value": "" },
+        { "id": "cmd-sf-2", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sf-3", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" },
+        { "id": "cmd-sf-4", "command": "executeScript", "target": "const link = Array.from(document.querySelectorAll('a')).find(a => a.href && a.href.includes('relevanceblender')); if(link) link.click();", "value": "" },
+        { "id": "cmd-sf-5", "command": "pause", "target": "5000", "value": "" },
+        { "id": "cmd-sf-6", "command": "assertElementPresent", "target": "css=div.s-main-slot", "value": "" }
+      ]
+    }
+
+  ],
+
+  "suites": [
+    {
+      "id": "suite-search",
+      "name": "Search Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 30000,
+      "tests": ["test-search-valid", "test-search-invalid", "test-click-product"]
+    },
+    {
+      "id": "suite-filter",
+      "name": "Filter Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 30000,
+      "tests": ["test-filter-prime", "test-filter-price-range", "test-filter-brand"]
+    },
+    {
+      "id": "suite-sort",
+      "name": "Sort Tests",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 30000,
+      "tests": ["test-sort-price-low-high", "test-sort-price-high-low", "test-sort-rating", "test-sort-featured"]
+    },
+    {
+      "id": "suite-all",
+      "name": "Full Suite (All Tests)",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 30000,
+      "tests": [
+        "test-search-valid",
+        "test-search-invalid",
+        "test-click-product",
+        "test-filter-prime",
+        "test-filter-price-range",
+        "test-filter-brand",
+        "test-sort-price-low-high",
+        "test-sort-price-high-low",
+        "test-sort-rating",
+        "test-sort-featured"
+      ]
+    }
+  ],
+
+  "urls": ["https://www.amazon.ca"],
+  "plugins": []
+}
