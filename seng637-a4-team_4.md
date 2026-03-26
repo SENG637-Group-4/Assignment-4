@@ -40,7 +40,7 @@ Please note that, since we have commented out dead code identified by our test c
 ![alt text](./images/mutation_stat_range_after_2.png)
 
 ## 3.1 DataUtilities class
-### 3.1.1 Before -- 
+### 3.1.1 Before
 #### Mutation score
 ![alt text](./images/mutation_score_datautilities_before_1.png)
 
@@ -59,13 +59,13 @@ Please note that, since we have commented out dead code identified by our test c
 ![alt text](./images/mutation_stat_datautilities_after_2.png)
 
 # Analysis drawn on the effectiveness of each of the test classes 
-* When we analyzed the Pitest reports for both the Range class and DataUtilities class, we found that most of the surviving mutants were because of equivalent mutations. Therefore, very little could have been done to improve upon the mutation scores.
+* Analysis of the PIT reports for both the Range and DataUtilities classes revealed that most surviving mutants were due to equivalent mutations, leaving little room for improving the mutation scores.
 * Furthermore, we removed dead code that contains no coverage, which incread the coverage in the source code.
 * We tried to create tests focusing on no coverage, but after careful examination, we noticed some dead code, we removed them, it increased the coverage.
-* private classes also reported in the coverage
+* private methods also reported in the coverage
 ![alt text](./images/private_class_coverage.png)
 * Constructor gets the coverage ![alt text](./images/constructor_coverage.png)
-
+* Coverage for private methods, and constructor causes a drop in the mutation score.
 
 # A discussion on the effect of equivalent mutants on mutation score accuracy
 ## Equivalent mutants in mutation score accuracy
@@ -114,6 +114,9 @@ Furthermore, we thought about this approach's pros, cons, and assumptions:
 
 
 # A discussion of what could have been done to improve the mutation score of the test suites
+* We can add test cases for all the public methods in both classes.
+* We could find a way to test constructors (if possible), and focus on private methods in the classes
+* We could find out a good way to cover equivaluent mutants via tests, and ensure increase the test score.
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
