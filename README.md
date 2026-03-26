@@ -181,6 +181,11 @@ Four new test classes were added targeting the specific survived mutants identif
 
 Each of 8 test cases includes multiple automated verification checkpoints:
 
+- **`assertElementPresent`** for stable structural elements...
+- **`executeScript` + `assert`** for dynamic or conditional elements...
+
+Here is a summary of the checkpoints per test:
+
 | Test | Checkpoints | Verification Method |
 |------|-------------|---------------------|
 | TC1a – Add to Cart (Headphones) | (1) Results loaded; (2) On /dp/ page; (3) Add-to-Cart button exists; (4) Cart page has items after clicking | `assertElementPresent` + JS `assert` |
@@ -192,6 +197,17 @@ Each of 8 test cases includes multiple automated verification checkpoints:
 | TC4a – 4-Star Filter | (1) Initial results; (2) Refinements panel; (3) Filtered results present; (4) At least one result; (5) URL has filter param; (6) Products have rating aria-labels | `assertElementPresent` + JS `assert` |
 | TC4b – Product Reviews Page | (1) On /dp/ URL; (2) Rating summary present; (3) Review count text; (4) Histogram present; (5) Written reviews present | JS `assert` |
 
+
+**Limitation encountered:** Selenium IDE does not support verifying that a
+cart item count badge updates correctly for guest (non-logged-in) users,
+because Amazon only increments the `#nav-cart-count` badge after
+authentication. To work around this, I redesigned TC1a to navigate directly
+to the cart page (`/gp/cart/view.html`) after clicking Add to Cart, where the
+cart form and item list are accessible to guest users and can be verified
+automatically. This limitation of the tool — its inability to test elements
+that require session state — is a noted disadvantage of Selenium IDE when
+testing e-commerce sites without a test account.
+```
 ---
 
 ## Section 7 – Different Test Data Per Functionality
