@@ -144,8 +144,6 @@ The selenium IDE recorded test cases are [here](Selenium_Test.side).
 
 Assertions and checkpoints are used to verify at specific points of the test cases that the functionality is working as intended.
 
-For example, for the test cases with the search product, we asserted the number of items in the cart shown on the site with the number of items that we actually added. Likewise, we assert the label "Empty Cart" when we have removed all of the items to ensure that the cart is working as expected.
-
 In the Selenium IDE, these functionalities are implemented using `assert` and `verify` commands (and their derivatives such as `assertElementPresent` for stable structural elements). According the [official Selenium IDE documentation](https://www.selenium.dev/selenium-ide/docs/en/api/commands), the test case stops if the `assert` fails, but continues even if `verify` fails.
 
 | Test script name                |     Checkpoints | Example of automated verification checkpoint                                                                 |
