@@ -294,10 +294,10 @@ First all four members did analysis of 10 mutants in the Pitest report. The anal
 
 | Mutation analysis | Tester                                                              |
 | ----------------- | ------------------------------------------------------------------- |
-| #1, #2            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
-| #3, #4            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
-| #5, #6            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
-| #7, #8, #9, #10   | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
+| #1, #2            | Minh Le,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan       |
+| #3, #4            | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
+| #5, #6            | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
+| #7, #8, #9, #10   | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
 
 **Division of Selenium IDE test cases**
 The functionalities tested using Selenium IDE by each member are summarized in the below table.
@@ -306,8 +306,8 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 | ------------------------ | ------------------------ |
 | Zohara Kamal             | Login                    |
 | Zohara Kamal             | Email preferences        |
-| Minh Lee                 | Finding different stores |
-| Minh Lee                 | Changing account details |
+| Minh Le                  | Finding different stores |
+| Minh Le                  | Changing account details |
 | Thanoshan Vijayanandan   | Cart                     |
 | Thanoshan Vijayanandan   | Wishlist                 |
 | Shuvam Agarwala          | Filtering search results |
@@ -329,7 +329,7 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 
    Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse, Pitest was installed successfully.
 
-2.Another issue arose while running PIT (Pitest) in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing a compatible Java version (such as Java 8) and properly configuring Eclipse to ensure consistency across all setups.
+2. Another issue arose while running PIT (Pitest) in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing a compatible Java version (such as Java 8) and properly configuring Eclipse to ensure consistency across all setups.
 
    ![Pitest non JRE 8 error](images/eclipse_error.png)
 
