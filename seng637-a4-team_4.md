@@ -2,14 +2,17 @@
 
 **Lab. Report \#4 – Mutation Testing and Web app testing**
 
-| Group 4      |
-|-----------------|
-| Zohara Kamal            |   
+| Group 4                         |
+|-------------------------------- |
+| Zohara Kamal                    |   
 | Thanoshan Vijayanandan          |   
-| Minh Le                |   
-| Shuvam Agarwala              |
+| Minh Le                         |   
+| Shuvam Agarwala                 |
 
 # 1. Introduction
+In this assignment, we will explore mutation testing with the help of Pitest eclipse plugin to see how good our test suite is in catching bugs. Then, we will try to improve our test suite by adding more test cases which would increase our mutation score by atleast 10%.
+
+Then, in the next part of this assignment, we will use Selenium IDE to test few different functionalities of the [Indigo](https://www.chapters.indigo.ca/en-ca/) website.
 
 # 2. Analysis of 10 Mutants of the Range class 
 
@@ -286,7 +289,66 @@ When we first researched Selenium IDE for this assignment, we initially attempte
 That being said, Selenium IDE appears to have limited ongoing maintenance compared to more modern testing tools. This resulted in several challenges during testing such as inconsistent behavior across browsers, limited support for handling dynamic web elements, and difficulties in performing advanced verifications. Furthermore, the tool lacks strong debugging capabilities and flexibility compared to frameworks like Selenium WebDriver, Playwright, or Cypress. Despite these limitations, Selenium IDE was still useful for quickly creating and running basic automated test cases, especially for simple workflows and UI interactions.
 
 # 13. Division of team work
+**Division of mutation analysis and additional test cases**
+First all four members did analysis of 10 mutants in the Pitest report. The analysis done by each member is summarized in the below table. Then Minh,Zohara, and Thanoshan wrote additional test cases for both the classes `Range` and `DataUtilities` that improved the mutation score.
+
+| Mutation analysis | Tester                                                              |
+| ----------------- | ------------------------------------------------------------------- |
+| #1, #2            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
+| #3, #4            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
+| #5, #6            | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
+| #7, #8, #9, #10   | Minh lee ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan     |
+
+**Division of Selenium IDE test cases**
+The functionalities tested using Selenium IDE by each member are summarized in the below table.
+
+| Tester                   | Functionality            |
+| ------------------------ | ------------------------ |
+| Zohara Kamal             | Login                    |
+| Zohara Kamal             | Email preferences        |
+| Minh Lee                 | Finding different stores |
+| Minh Lee                 | Changing account details |
+| Thanoshan Vijayanandan   | Cart                     |
+| Thanoshan Vijayanandan   | Wishlist                 |
+| Shuvam Agarwala          | Filtering search results |
+| Shuvam Agarwala          | Careers                  |
 
 # 14. Difficulties encountered, challenges overcome, and lessons learned
 
+1. There was some issues while setting up of Pitest in Eclipse. During the installaion of Pitest from the Eclipse marketplace, one of the group member was getting errors like below.
+
+   ```
+   An error occurred while collecting items to be installed
+     session context was:(profile=C__Program Files_Eclipse_eclipse,
+     phase=org.eclipse.equinox.internal.p2.engine.phases.Collect,
+     operand=, action=).
+
+     No repository found containing:
+     osgi.bundle,com.google.guava,21.0.0.v20170206-1425
+   ```
+
+   Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse from **2021-12** to **2021-03**, Pitest was installed successfully.
+
+2. This was another error encountered when trying to run Pitest in Eclipse. The error was solved by ensuring Eclipse was using the Java8 JRE.
+
+   ![Pitest non JRE 8 error](images/eclipse_error.png)
+
+3. To objective for improving mutation scores to at least 10% for each class is very difficult to obtain because we are focusing on the 5 methods of each class from the previous assignments. For example, our test cases for `DataUtilities` only yields a mutation coverage of 58% because they are designed to only cover the 5 methods from this class. If we were to delete all of the other methods besides the 5 methods that we wrote test cases for from our previous assignments, our tests yields 91% mutation coverage.
+
+   ![DataUtilies only 5 methods before](images/DataUtilities_5_Methods_Before.png)
+
+   We have also written 5 test cases for the data utilities class and with those 5 test cases, we have increase the mutations killed from 400 to 405 out of 441, which means we increased it by 1%.
+
+   ![DataUtilies only 5 methods after](images/DataUtilities_5_Methods_After.png)
+
+4. Some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
+
+5. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
+
+
 # 15. Comments/feedback on the assignment itself
+
+1. This assignment gave us a chance to further improve our test suite using mutation testing.
+
+2. The assignment description document [`Assignment_Description.md`](Assignment_Description.md) is very detailed and comprehensive, and it was easy to follow.
+
