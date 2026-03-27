@@ -138,7 +138,7 @@ After defining the list of actions that a user will conduct in our test scenario
 
 For example, with product search, we would define test cases to verify that entering a keyword on Amazon returns relevant results and successfully loads the results page.
 
-The selenium IDE recorded test cases are [here](Selenium_Test.side).
+The selenium IDE recorded test cases are [here](selenium_testing_script.side).
 
 # 9. The use of assertions and checkpoints
 
