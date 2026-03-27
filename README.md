@@ -177,6 +177,8 @@ Four new test classes were added targeting the specific survived mutants identif
 
 ---
 
+<img width="1910" height="978" alt="image" src="https://github.com/user-attachments/assets/bcddec90-8766-4200-bbc0-0b4fa3201f0a" />
+
 ## Section 6 – Assertions and Checkpoints
 
 Each of 8 test cases includes multiple automated verification checkpoints:
