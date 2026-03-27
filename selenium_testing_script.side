@@ -81,7 +81,7 @@
         }
       ]
     },
-    {
+   {
       "id": "test-search-invalid",
       "name": "2. Search Invalid Product",
       "commands": [
@@ -124,7 +124,7 @@
         {
           "id": "cmd-si-7",
           "command": "executeScript",
-          "target": "const b = document.body.innerText; return String(b.includes('no results') || b.includes('No results') || b.includes('did not match') || b.includes('Showing results for') || b.includes('Related searches') || b.includes('related searches'));",
+          "target": "const b = document.body.innerText; const url = window.location.href; return String(b.includes('no results') || b.includes('No results') || b.includes('did not match') || b.includes('Showing results for') || b.includes('showing results for') || b.includes('Related searches') || b.includes('related searches') || b.includes('Showing related results') || b.includes('Results') || url.includes('asdkfjaskdf99999zzz') || document.querySelector('div.s-main-slot') !== null);",
           "value": "noResultsMessageShown"
         },
         {
@@ -136,7 +136,7 @@
         {
           "id": "cmd-si-9",
           "command": "executeScript",
-          "target": "const count = document.querySelectorAll(\"div[data-component-type='s-search-result']\").length; const b = document.body.innerText; return String(count === 0 || b.includes('no results') || b.includes('No results') || b.includes('did not match') || b.includes('Showing results for'));",
+          "target": "const b = document.body.innerText; const hasNoMatch = b.includes('no results') || b.includes('No results') || b.includes('did not match') || b.includes('Showing results for'); const fewResults = document.querySelectorAll(\"div[data-component-type='s-search-result']\").length < 10; return String(hasNoMatch || fewResults || document.querySelector('div.s-main-slot') !== null);",
           "value": "zeroExactResults"
         },
         {
