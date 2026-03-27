@@ -121,9 +121,16 @@ Furthermore, we thought about this approach's pros, cons, and assumptions:
 # 7. Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
 # 8. SELENUIM test case design process
-First, we decided to test Amazon website using the Selenium IDE.
 
-After choosing Amazon as our SUT, we decided what all functionalities should be part of the test cases. We decided to test those functionalities that might be used most often by the user (excluding purchases). With this in mind, we had envisioned our user to conduct the following actions on the website
+First, we selected the Amazon.ca website as our System Under Test (SUT) and chose to use Selenium IDE as the testing tool due to its simplicity in recording and replaying user interactions.
+
+a. Defining Testing Scope and Objectives
+
+After selecting the SUT, we identified the core functionalities to test. We focused on high-frequency user actions that represent typical browsing behavior, while explicitly excluding the checkout/purchase process due to its complexity and dependency on sensitive data (payment details).
+
+We modeled a typical user journey, ensuring that our test coverage reflects realistic usage scenarios.
+
+b. Identifying Key Functionalities
 
 - Product search: verifying that entering keywords returns relevant results and loads the results page correctly
 - Filter products: verifying that applying filters (e.g., price, brand, rating) updates the product list based on selected criteria
@@ -134,9 +141,34 @@ After choosing Amazon as our SUT, we decided what all functionalities should be 
 - Department/Category Navigation: testing the site's category taxonomy (Electronics department, Books department with search-within)
 - Customer Reviews: verifying review filtering by star rating and review section rendering on product pages
 
-After defining the list of actions that a user will conduct in our test scenario, we then progress to creating test cases for these actions to verify the functionality works according to the expectations.
+c. Test Case Design Strategy
 
-For example, with product search, we would define test cases to verify that entering a keyword on Amazon returns relevant results and successfully loads the results page.
+After defining the functionalities, we designed test cases for each feature with:
+- Inputs (search keywords like “laptop”)
+- Actions (user interactions such as clicking, typing, selecting filters)
+- Expected Results (results page loads, products displayed match criteria)
+
+For example: Product Search Test Case
+- Input: “laptop”
+- Action: Enter keyword and submit search
+- Expected Result: Search results page loads with relevant products displayed
+
+Each test case was designed to include verification checkpoints, ensuring that outcomes are automatically validated rather than relying on manual inspection.
+
+d. Automation Using Selenium IDE
+
+We then used Selenium IDE to record user interactions directly in the browser, generate step-by-step test scripts, add assertions such as `assertElementPresent`, `assertText` and `verifyElementVisible`. These assertions act as automated verification checkpoints, confirming whether the application behaves as expected.
+
+e. Handling Tool Limitations
+
+During implementation, we identified some limitations of Selenium IDE:
+- Difficulty verifying dynamic content changes (sorting correctness beyond UI presence)
+- Limited support for complex validations (verifying numerical order of prices)
+- Challenges with modern dynamic web elements (AJAX loading, changing DOM)
+
+To address this, we:
+- Added alternative test cases that rely on verifiable UI changes
+- Noted these limitations as disadvantages of the tool in contexts where full automation was not achievable
 
 The selenium IDE recorded test cases are [here](selenium_testing_script.side).
 
