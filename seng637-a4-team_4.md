@@ -302,16 +302,16 @@ First all four members did analysis of 10 mutants in the Pitest report. The anal
 **Division of Selenium IDE test cases**
 The functionalities tested using Selenium IDE by each member are summarized in the below table.
 
-| Tester                   | Functionality            |
-| ------------------------ | ------------------------ |
-| Zohara Kamal             | Login                    |
-| Zohara Kamal             | Email preferences        |
-| Minh Le                  | Finding different stores |
-| Minh Le                  | Changing account details |
-| Thanoshan Vijayanandan   | Cart                     |
-| Thanoshan Vijayanandan   | Wishlist                 |
-| Shuvam Agarwala          | Filtering search results |
-| Shuvam Agarwala          | Careers                  |
+| Tester                   | Functionality                  |
+| ------------------------ | ------------------------------ |
+| Zohara Kamal             | Product search                 |
+| Zohara Kamal             | Filter products                |
+| Minh Le                  | Sort by price/rating           |
+| Minh Le                  | Switch language and currency   |
+| Thanoshan Vijayanandan   | Add to Card                    |
+| Thanoshan Vijayanandan   | Product Detail Page            |
+| Shuvam Agarwala          | Department/Category Navigation |
+| Shuvam Agarwala          | Customer Reviews               |
 
 # 14. Difficulties encountered, challenges overcome, and lessons learned
 
