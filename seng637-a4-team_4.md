@@ -327,13 +327,13 @@ The functionalities tested using Selenium IDE by each member are summarized in t
      osgi.bundle,com.google.guava,21.0.0.v20170206-1425
    ```
 
-   Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse from **2021-12** to **2021-03**, Pitest was installed successfully.
+   Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse, Pitest was installed successfully.
 
-2. This was another error encountered when trying to run Pitest in Eclipse. The error was solved by ensuring Eclipse was using the Java8 JRE.
+2.Another issue arose while running PIT (Pitest) in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing a compatible Java version (such as Java 8) and properly configuring Eclipse to ensure consistency across all setups.
 
    ![Pitest non JRE 8 error](images/eclipse_error.png)
 
-3. To objective for improving mutation scores to at least 10% for each class is very difficult to obtain because we are focusing on the 5 methods of each class from the previous assignments. For example, our test cases for `DataUtilities` only yields a mutation coverage of 58% because they are designed to only cover the 5 methods from this class. If we were to delete all of the other methods besides the 5 methods that we wrote test cases for from our previous assignments, our tests yields 91% mutation coverage.
+4. To objective for improving mutation scores to at least 10% for each class is very difficult to obtain because we are focusing on the 5 methods of each class from the previous assignments. For example, our test cases for `DataUtilities` only yields a mutation coverage of 58% because they are designed to only cover the 5 methods from this class. If we were to delete all of the other methods besides the 5 methods that we wrote test cases for from our previous assignments, our tests yields 91% mutation coverage.
 
    ![DataUtilies only 5 methods before](images/DataUtilities_5_Methods_Before.png)
 
@@ -341,14 +341,14 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 
    ![DataUtilies only 5 methods after](images/DataUtilities_5_Methods_After.png)
 
-4. Some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
+5. Some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
 
-5. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
+6. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
 
 
 # 15. Comments/feedback on the assignment itself
 
 1. This assignment gave us a chance to further improve our test suite using mutation testing.
 
-2. The assignment description document [`Assignment_Description.md`](Assignment_Description.md) is very detailed and comprehensive, and it was easy to follow.
+2. The assignment description document is very detailed and comprehensive, and it was easy to follow.
 
