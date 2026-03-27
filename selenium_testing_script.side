@@ -1,13 +1,7 @@
 {
   "id": "amazon-ca-full-suite",
-  "version": "4.0",
-  "name": "Amazon.ca Complete Test Suite — 21 Tests",
+  "name": "Amazon.ca Complete Test Suite - 21 Tests",
   "url": "https://www.amazon.ca",
-  "_verification_notes": {
-    "automated": "All 13 tests use executeScript+assert checkpoints to verify actual outcomes, not just element presence.",
-    "tool_limitation_1": "Test 5 (Filter by Price Range): Selenium IDE cannot verify that EVERY product price on the page falls within $100-$500 because Amazon injects prices via lazy-load after scroll and some price elements use obfuscated aria-hidden spans. Workaround applied: verify the price range parameters appear in the URL (confirming Amazon applied the filter server-side) and that price elements are rendering. For full per-product price validation use Playwright or Cypress.",
-    "tool_limitation_2": "Tests 7 & 8 (Sort Low-High / High-Low): Selenium IDE cannot reliably compare all extracted CAD price strings as floats across the full result set. Workaround applied: verify the sort parameter is in the URL and compare only the first two visible prices as a spot-check. For full ascending/descending validation across all results use Playwright or Cypress."
-  },
   "tests": [
     {
       "id": "test-search-valid",
