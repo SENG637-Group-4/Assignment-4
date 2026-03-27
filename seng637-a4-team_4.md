@@ -201,7 +201,11 @@ Each of the eight functionalities/test chosen was tested with different test dat
 
 The test results show that a wide range of functionalities on the Amazon website were successfully tested using different input data, demonstrating the flexibility and coverage of the test suite. By using varied test data such as valid and invalid search terms, different product categories, and multiple filtering and sorting options, the tests were able to simulate realistic user behavior. This helped ensure that key features such as search, navigation, filtering, sorting, and cart operations function correctly under different conditions. Additionally, testing language switching and currency display confirmed that localization features work as expected. However, some limitations were observed when verifying dynamic elements such as price ranges and sorting accuracy, as these depend on dynamically loaded content and session behavior. Overall, using diverse test data improved the reliability of the testing process and provided better confidence in the system’s functionality.
 
-<img width="1914" height="956" alt="image" src="https://github.com/user-attachments/assets/ce76dd02-ee86-456a-99a5-42d60880872b" />
+Here are the screenshot that all test cases are passed:
+
+<img width="1531" height="1045" alt="image" src="https://github.com/user-attachments/assets/e89da191-e9e2-401d-a5b7-21be9c6d663b" />
+
+<img width="1051" height="926" alt="image" src="https://github.com/user-attachments/assets/7f07faa0-9ba4-444c-8126-af9c6971b0aa" />
 
 # 11. Selenium vs Sikulix
 **Advantages of Sikulix**
@@ -245,6 +249,7 @@ The test results show that a wide range of functionalities on the Amazon website
 When we first researched Selenium IDE for this assignment, we initially attempted to use the extension from the official website. However, we noticed that the site appeared outdated, with information not updated since around 2019. Additionally, the Chrome version of the Selenium IDE extension was no longer available, likely due to not meeting updated Chrome extension policies. As a result, we attempted to use Selenium on macOS, but encountered multiple compatibility issues and runtime errors. To overcome this, we switched to using the Firefox browser, where the Selenium IDE extension is still supported and more stable.
 
 <img width="1184" height="328" alt="image" src="https://github.com/user-attachments/assets/0336034b-2bf1-443f-b7c3-6d56d3a50366" />
+
 
 That being said, Selenium IDE appears to have limited ongoing maintenance compared to more modern testing tools. This resulted in several challenges during testing, such as inconsistent behavior across browsers, limited support for handling dynamic web elements, and difficulties in performing advanced verifications (e.g., validating all product prices or sorting correctness). Furthermore, the tool lacks strong debugging capabilities and flexibility compared to frameworks like Selenium WebDriver, Playwright, or Cypress. Despite these limitations, Selenium IDE was still useful for quickly creating and running basic automated test cases, especially for simple workflows and UI interactions.
 
