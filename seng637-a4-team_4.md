@@ -283,7 +283,7 @@ When we first researched Selenium IDE for this assignment, we initially attempte
 <img width="1184" height="328" alt="image" src="https://github.com/user-attachments/assets/0336034b-2bf1-443f-b7c3-6d56d3a50366" />
 
 
-That being said, Selenium IDE appears to have limited ongoing maintenance compared to more modern testing tools. This resulted in several challenges during testing, such as inconsistent behavior across browsers, limited support for handling dynamic web elements, and difficulties in performing advanced verifications (e.g., validating all product prices or sorting correctness). Furthermore, the tool lacks strong debugging capabilities and flexibility compared to frameworks like Selenium WebDriver, Playwright, or Cypress. Despite these limitations, Selenium IDE was still useful for quickly creating and running basic automated test cases, especially for simple workflows and UI interactions.
+That being said, Selenium IDE appears to have limited ongoing maintenance compared to more modern testing tools. This resulted in several challenges during testing such as inconsistent behavior across browsers, limited support for handling dynamic web elements, and difficulties in performing advanced verifications. Furthermore, the tool lacks strong debugging capabilities and flexibility compared to frameworks like Selenium WebDriver, Playwright, or Cypress. Despite these limitations, Selenium IDE was still useful for quickly creating and running basic automated test cases, especially for simple workflows and UI interactions.
 
 # 13. Division of team work
 
