@@ -470,29 +470,13 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 
 # 14. Difficulties encountered, challenges overcome, and lessons learned
 
-1. There was some issues while setting up of Pitest in Eclipse. During the installaion of Pitest from the Eclipse marketplace, one of the group member was getting errors like below.
+1. After experimenting with Selenium testing on various websites, we observed that some sites introduce an additional authentication step, when they detect automated activity. As a result, Selenium test cases involving login may pause midway until the tester manually resolves.
 
-   ```
-   An error occurred while collecting items to be installed
-     session context was:(profile=C__Program Files_Eclipse_eclipse,
-     phase=org.eclipse.equinox.internal.p2.engine.phases.Collect,
-     operand=, action=).
+2. There was some issues while setting up of Pitest in Eclipse. During the installaion of Pitest from the Eclipse marketplace, one of the group member was getting errors. Another issue arose while running Pitest in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing Java 8 and properly configuring Eclipse to ensure consistency across all setups.
 
-     No repository found containing:
-     osgi.bundle,com.google.guava,21.0.0.v20170206-1425
-   ```
+3. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
 
-   Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse, Pitest was installed successfully.
-
-2. Another issue arose while running Pitest in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing Java 8 and properly configuring Eclipse to ensure consistency across all setups.
-
-   <img width="909" height="285" alt="image" src="https://github.com/user-attachments/assets/ab266c84-ed60-4040-922a-396546da681c" />
-
-3. After playing around with Selenium testing with some websites, we noticed that some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
-
-4. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
-
-5. Another problem we already mentioned in section 12 is about the Selenium outdated
+4. Another problem we already mentioned in section 12 is about the Selenium outdated
 
 # 15. Comments/feedback on the assignment itself
 
