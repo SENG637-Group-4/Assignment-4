@@ -263,7 +263,7 @@ Furthermore, we thought about this approach's pros, cons, and assumptions:
 
 Mutation testing is used to evaluate the effectiveness and quality of a test suite. It works by introducing small changes (mutations) into the source code to simulate faults and then checking whether the existing test cases can detect these injected bugs. If the test suite fails to catch the mutation, it indicates weaknesses in the tests.
 
-- **Advantages**[[1]](https://www.softwaretestingclass.com/mutation-testing-advantages-and-disadvantages/)
+- **Advantages**
 
   - Mutation testing has the ability to detect all faults in the source code, as it simulates various types of possible defects and verifies whether the test suite can identify them
   - High coverage of the source program is attained, since mutation testing forces tests to execute and validate different parts of the code more thoroughly than traditional coverage metrics
@@ -271,7 +271,7 @@ Mutation testing is used to evaluate the effectiveness and quality of a test sui
   - Quality of the software program is improved, as developers are encouraged to write stronger and more effective test cases
   - Loopholes in test data can be identified, revealing cases where inputs are insufficient to trigger faults or validate edge conditions
 
-- **Disadvantages**[[1]](https://www.softwaretestingclass.com/mutation-testing-advantages-and-disadvantages/)
+- **Disadvantages**
 
   - Complex mutations are difficult to implement, especially when dealing with large or highly dependent codebases where small changes can have widespread effects
   - Mutation testing is time-consuming and expensive, as it requires generating and executing a large number of mutated versions of the program
