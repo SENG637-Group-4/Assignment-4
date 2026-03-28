@@ -161,7 +161,7 @@ The following analysis is based on running **Pitest** with **All Mutators** enab
 
 Please note that, since we have commented out dead code identified by our test cases in the source code of Range and DataUtilities class, the original test suite's mutation score can be higher than the reported score (as it has reduced the no coverage code).
 
-For reproducability of original mutation score of Range and DataUtilities classess, please copy the class code from Range.java and DataUtilities.java in JFreeChart_Lab4/src/org/jfree/data/original. These new files contain the original, uncommented dead code.
+For **reproducability of original mutation score of Range and DataUtilities classess**, please copy the class code from Range.java and DataUtilities.java in JFreeChart_Lab4/src/org/jfree/data/original. These new files contain the original, uncommented dead code.
 
 ## 3.1 Range class
 ### 3.1.1 Before
@@ -255,9 +255,9 @@ Furthermore, we thought about this approach's pros, cons, and assumptions:
 
 
 # 6. A discussion of what could have been done to improve the mutation score of the test suites
-* We can add test cases for all the public methods in both classes.
-* We could find a way to test constructors (if possible), and focus on private methods in the classes
-* We could find out a good way to cover equivaluent mutants via tests, and ensure increase the test score.
+To improve the mutation score of the test suites, several enhancements could be made. First, additional test cases should be written to cover all public methods in both classes, ensuring that each method is exercised under different input conditions, including edge cases and boundary values. This would help detect more faults introduced by mutants. Second, although testing constructors directly can be challenging, tests can be designed to validate object initialization and state through observable behavior. Indirect testing of private methods can also be achieved by invoking public methods that rely on them, ensuring their logic is adequately covered.
+
+Furthermore, special attention should be given to equivalent mutants, which do not change the program’s behavior and therefore cannot be killed by tests. While they cannot be fully eliminated, improving test design and using more precise assertions can help reduce their impact on mutation score accuracy. Additionally, incorporating parameterized tests, increasing assertion strength (e.g., checking exact values instead of general conditions), and improving branch and path coverage can further enhance the effectiveness of the test suites and lead to higher mutation scores.
 
 # 7. Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
@@ -398,41 +398,12 @@ Here are the screenshot that all test cases are passed:
 <img width="1051" height="926" alt="image" src="https://github.com/user-attachments/assets/7f07faa0-9ba4-444c-8126-af9c6971b0aa" />
 
 # 11. Selenium vs Sikulix
-**Advantages of Sikulix**
-
-1. Sikulix uses image recognition powered by OpenCV to identify GUI components. This is handy when there is no easy access to a GUI's internals or the source code.
-
-2. Sikulix can interact with desktop applications as well.
-
-**Disadvantages of Sikulix**
-
-1. Less popular than Selenium, and thus difficult to find support.
-
-2. Requires 64-bit Java 8 or above to work
-
-3. Poor documentation.
-
-4. Test cases will be resolution dependent.
-
-5. Image recognition is not very accurate.
-
-**Advantages of Selenium**
-
-1. More popular than Sikulix, and thus easy to find support.
-
-2. Better documentation.
-
-3. Selenium IDE can be added as an extension/addon on most of the modern browsers. It doesn't has any special requirements.
-
-4. Test cases will be resolution independent.
-
-5. Functionalities can be extended with the help of plugins.
-
-**Disadvantages of Selenium**
-
-1. Image recognition to identify GUI components is not possible without plugins.
-
-2. Selenium cannot test desktop applications without using a plugin.
+| Tool      | Category       | Points |
+|-----------|--------------|--------|
+| **Selenium** | Advantages | - More widely adopted, so support and community resources are easier to access.<br>- Offers more complete and well-maintained documentation.<br>- Selenium IDE can be installed as a browser extension without special setup.<br>- Test cases are independent of screen resolution.<br>- Functionality can be extended using plugins and extensions. |
+| **Selenium** | Disadvantages | - Does not natively support image recognition without plugins.<br>- Cannot automate desktop applications without external tools or plugins. |
+| **Sikulix** | Advantages | - Uses OpenCV-based image recognition to detect GUI elements, useful when source code or internals are not accessible.<br>- Can automate desktop applications. |
+| **Sikulix** | Disadvantages | - Less widely used, so support is harder to find.<br>- Requires 64-bit Java 8 or higher.<br>- Documentation is limited.<br>- Test cases depend on screen resolution.<br>- Image recognition may not always be accurate. |
 
 # 12. Selenium IDE outdated
 
