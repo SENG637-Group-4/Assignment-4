@@ -478,6 +478,8 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 
 4. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
 
+5. Another problem we already mentioned in section 12 is about the Selenium outdated
+
 # 15. Comments/feedback on the assignment itself
 
 1. The assignment effectively combined theoretical concepts (mutation testing) with practical tools (Pitest and Selenium IDE), which helped reinforce our understanding through hands-on experience.
