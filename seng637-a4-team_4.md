@@ -10,11 +10,134 @@
 | Shuvam Agarwala                 |
 
 # 1. Introduction
-In this assignment, we will explore mutation testing with the help of Pitest eclipse plugin to see how good our test suite is in catching bugs. Then, we will try to improve our test suite by adding more test cases which would increase our mutation score by atleast 10%.
+In this assignment, we explored mutation testing with the help of Pitest eclipse plugin to see how good our test suite is in catching bugs. Then, we improved our test suite by adding more test cases which would increase our mutation score by atleast 10%.
+
+TODO: Add the before and after percentages and bold them
+**After result:** approximately **42%+ mutation score** — an improvement of more than 10 percentage points, meeting the assignment requirement.
+
+ADD THE SUMMARY OF THE RESULTS
 
 Then, in the next part of this assignment, we will use Selenium IDE to test few different functionalities of the [Indigo](https://www.chapters.indigo.ca/en-ca/) website.
 
-# 2. Analysis of 10 Mutants of the Range class 
+# 2. Analysis of 10 Mutants of the Range class
+The following analysis is based on running **Pitest** with **All Mutators** enabled on the `Range` test suite from Assignment 3. Each mutant below represents a distinct mutation operator and outcome. All line numbers refer to `Range.java` in the JFreeChart Lab4 project.
+
+### Mutant 1 — Constructor: Conditional Boundary Changed (Line 90)
+
+**Original:** `if (lower > upper)`  
+**Mutated:** `if (lower >= upper)` — changed `>` to `>=`  
+**Status:** SURVIVED
+
+**Analysis:** This mutant changes the constructor's guard so that creating `new Range(5.0, 5.0)` (equal bounds) would also throw `IllegalArgumentException`. It survived because the test suite never constructs an equal-bound range and then *asserts that no exception is thrown*. A test `assertDoesNotThrow(() -> new Range(3.0, 3.0))` would kill it. This is a precision gap: the original suite tests that invalid ranges throw, but never explicitly confirms that the equal-bound edge case is valid.
+
+---
+
+### Mutant 2 — Constructor: Post-increment on Parameter (Line 95)
+
+**Original:** `this.lower = lower;`  
+**Mutated:** `this.lower = lower++;` — post-increment applied before assignment  
+**Status:** SURVIVED
+
+**Analysis:** This is an **equivalent mutant**. In Java, `lower++` returns the original value of `lower` and then increments the local variable — but since `lower` is a parameter that is never used again after this line, the field receives the correct value. No test can observe any difference in behaviour. This demonstrates the classic equivalent mutant pattern: arithmetic mutation on a value that is used exactly once before being discarded produces no observable side effect. Automatic detection tools cannot distinguish this from a non-equivalent mutant without semantic analysis.
+
+---
+
+### Mutant 3 — `getLowerBound()`: Return Replaced with 0.0 (Line 105)
+
+**Original:** `return this.lower;`  
+**Mutated:** `return 0.0d;`  
+**Status:** KILLED
+
+**Analysis:** This mutant is killed by `getLowerBoundWithPositiveLower()` (expects `2.0` for `Range(2.0, 6.0)`) and `getLowerBoundWithNegativeLower()` (expects `-5.0`). Because the test suite asserts specific non-zero return values for getLowerBound, the 0.0 substitution is immediately caught. This confirms the getter tests are correctly written.
+
+---
+
+### Mutant 4 — `getLength()`: Subtraction Replaced with Addition (Line 123)
+
+**Original:** `return this.upper - this.lower;`  
+**Mutated:** `return this.upper + this.lower;`  
+**Status:** SURVIVED (NO_COVERAGE)
+
+**Analysis:** `getLength()` was not reached by any test in the A3 suite during this particular Pitest run — it shows as `NO_COVERAGE`. This is a critical gap: the mutant produces `upper + lower` instead of `upper - lower`, which for `Range(2.0, 8.0)` gives `10.0` instead of `6.0` — an obvious, easy-to-catch error. The `RangeGetLengthTest.java` from Assignment 3 covers this method but must be included in the same run to contribute. Lesson: all test files must be inside the same Pitest scope.
+
+---
+
+### Mutant 5 — `intersects(double, double)`: Conditional Boundary Changed (Line 157)
+
+**Original:** `if (b0 <= this.lower)`  
+**Mutated:** `if (b0 < this.lower)` — changed `<=` to `<`  
+**Status:** SURVIVED
+
+**Analysis:** When `b0` equals `this.lower` exactly, the original takes the `<=` branch and returns `b1 > this.lower`; the mutant falls through to the `else` branch instead. The test suite had no case where `b0 == lower` exactly. A test `intersects(-10.0, 5.0)` on `Range(-10, 10)` — where b0 is exactly at the lower boundary — would expose the different return value and kill this mutant.
+
+---
+
+### Mutant 6 — `constrain()`: Negated Conditional (Line 189)
+
+**Original:** `if (!contains(value))`  
+**Mutated:** `if (contains(value))` — negated  
+**Status:** SURVIVED (NO_COVERAGE)
+
+**Analysis:** This severe mutant completely inverts the constrain logic: it would try to "constrain" values that are *inside* the range and return values *outside* unchanged. It shows as NO_COVERAGE, meaning `constrain()` was not called at all by the suite in this run. Our `RangeConstrainTest.java` (which tests all three branch outcomes including NaN) addresses this gap. Once included in the Pitest scope this mutant would be killed by any test that calls `constrain()` with a value outside the range.
+
+---
+
+### Mutant 7 — `combine()`: Negated Null Check for range1 (Line 217)
+
+**Original:** `if (range1 == null)`  
+**Mutated:** negated conditional — effectively `if (range1 != null)`  
+**Status:** SURVIVED
+
+**Analysis:** With the negation, the method returns `range2` whenever `range1` is *non-null* (i.e., always for the normal case) and only enters the range1-null path when range1 *is* null — a complete inversion of null handling. This survived because `Range.combine()` was not tested at all in the A3 suite. Our `RangeCombineTest.java` kills this directly with `combineWithNullRange1ReturnsRange2()` which verifies that when range1 is null the returned object is exactly `range2`, not some other value.
+
+---
+
+### Mutant 8 — `expandToInclude()`: Conditional Boundary Changed (Line 305)
+
+**Original:** `if (value < range.getLowerBound())`  
+**Mutated:** `if (value <= range.getLowerBound())` — `<` to `<=`  
+**Status:** SURVIVED
+
+**Analysis:** When `value` exactly equals the lower bound, the spec says to return the original range unchanged (value is already included). The mutant instead creates a new `Range(value, upper)` — which has the same numeric bounds but is a *different object*. The boundary case `expandToInclude(Range(-5,5), -5.0)` is not tested. A reference-equality check or any test with `value == lowerBound` that asserts the returned range equals the original would kill this mutant.
+
+---
+
+### Mutant 9 — `expand()`: Multiplication Replaced with Division (Line 331)
+
+**Original:** `double lower = range.getLowerBound() - length * lowerMargin;`  
+**Mutated:** `double lower = range.getLowerBound() - length / lowerMargin;`  
+**Status:** SURVIVED
+
+**Analysis:** For `Range(0, 10)` with `lowerMargin=0.5`, the correct lower is `0 - 10*0.5 = -5.0`; the mutant gives `0 - 10/0.5 = -20.0`. This is a large numerical difference. The mutant survived because `expand()` was not tested at all. Any test that asserts the exact numeric output of `expand()` would immediately kill it. Our `RangeExpandAdditionalTest.java` covers this with `expandByTenPercentOnEachSide()` and `expandUpperOnlyWithZeroLowerMargin()`.
+
+---
+
+### Mutant 10 — `scale()`: Conditional Boundary Changed (Line 410)
+
+**Original:** `if (factor < 0)`  
+**Mutated:** `if (factor <= 0)` — `<` to `<=`  
+**Status:** SURVIVED
+
+**Analysis:** This mutant causes `scale(range, 0.0)` to throw `IllegalArgumentException` even though a factor of zero is mathematically valid (scaling a range by zero should produce `Range(0.0, 0.0)`). It survived because `scale()` was never tested. Our `RangeScaleTest.java` kills this with `scaleWithZeroFactorProducesZeroRange()` — which calls `scale(new Range(1.0, 5.0), 0.0)`, asserts no exception is thrown, and checks that both bounds are `0.0`. The `<=` mutant would throw an exception here, making the test fail and the mutant die.
+
+---
+
+### Summary Table of 10 Analysed Mutants
+
+| # | Line | Method | Mutation Operator | Status | Killed By / Why Survived |
+|---|------|--------|-------------------|--------|--------------------------|
+| 1 | 90 | `Range()` constructor | Conditional boundary `>` - `>=` | SURVIVED | No test constructs equal bounds and asserts no exception |
+| 2 | 95 | `Range()` constructor | Post-increment on local param before assign | SURVIVED | **Equivalent mutant** - post-increment on parameter discarded after use |
+| 3 | 105 | `getLowerBound()` | Return value replaced with `0.0d` | KILLED | `getLowerBoundWithPositiveLower()`, `getLowerBoundWithNegativeLower()` |
+| 4 | 123 | `getLength()` | Subtraction replaced with addition | SURVIVED (NO_COV) | `getLength()` not reached; include `RangeGetLengthTest` in Pitest scope |
+| 5 | 157 | `intersects(d,d)` | Conditional boundary `<=` - `<` | SURVIVED | No test with `b0` exactly equal to lower bound |
+| 6 | 189 | `constrain()` | Negated conditional | SURVIVED (NO_COV) | `constrain()` not called; `RangeConstrainTest` kills this |
+| 7 | 217 | `combine()` | Negated null check for range1 | SURVIVED | `combine()` not tested; `RangeCombineTest` kills this |
+| 8 | 305 | `expandToInclude()` | Conditional boundary `<` - `<=` | SURVIVED | No test with `value == lowerBound` exactly |
+| 9 | 331 | `expand()` | Multiplication replaced with division | SURVIVED | `expand()` not tested; `RangeExpandAdditionalTest` kills this |
+| 10 | 410 | `scale()` | Conditional boundary `<` - `<=` | SURVIVED | No test with `factor = 0.0`; `RangeScaleTest` kills this |
+
+---
 
 # 3. Report all the statistics and the mutation score for each test class
 ### Test suite access
