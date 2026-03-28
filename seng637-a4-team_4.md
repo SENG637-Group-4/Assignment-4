@@ -9,6 +9,24 @@
 | Minh Le                         |   
 | Shuvam Agarwala                 |
 
+# Table of Contents
+
+1. [Introduction](#1-introduction)  
+2. [Analysis of 10 Mutants of the Range Class](#2-analysis-of-10-mutants-of-the-range-class)  
+3. [Mutation Score and Statistics](#3-mutation-score-and-statistics)  
+4. [Effectiveness of Test Classes](#4-effectiveness-of-test-classes)  
+5. [Equivalent Mutants and Mutation Score Accuracy](#5-equivalent-mutants-and-mutation-score-accuracy)  
+6. [Improving Mutation Score](#6-improving-mutation-score)  
+7. [Mutation Testing: Advantages and Disadvantages](#7-mutation-testing-advantages-and-disadvantages)  
+8. [Selenium Test Case Design Process](#8-selenium-test-case-design-process)  
+9. [Use of Assertions and Checkpoints](#9-use-of-assertions-and-checkpoints)  
+10. [Testing with Different Test Data](#10-testing-with-different-test-data)  
+11. [Selenium vs SikuliX](#11-selenium-vs-sikulix)  
+12. [Selenium IDE Limitations](#12-selenium-ide-limitations)  
+13. [Division of Team Work](#13-division-of-team-work)  
+14. [Challenges and Lessons Learned](#14-challenges-and-lessons-learned)  
+15. [Comments and Feedback](#15-comments-and-feedback)  
+
 # 1. Introduction
 In this assignment, we explored mutation testing with the help of Pitest eclipse plugin to see how good our test suite is in catching bugs. Then, we improved our test suite by adding more test cases which would increase our mutation score by atleast 10%.
 
@@ -413,14 +431,14 @@ That being said, Selenium IDE appears to have limited ongoing maintenance compar
 
 # 13. Division of team work
 **Division of mutation analysis and additional test cases**
-First all four members did analysis of 10 mutants in the Pitest report. The analysis done by each member is summarized in the below table. Then Minh,Zohara, and Thanoshan wrote additional test cases for both the classes `Range` and `DataUtilities` that improved the mutation score.
+First all four members did analysis of 10 mutants in the Pitest report. The analysis done by each member is summarized in the below table. Then Minh and Thanoshan wrote additional test cases for both the classes `Range` and `DataUtilities` that improved the mutation score.
 
 | Mutation analysis | Tester                                                              |
 | ----------------- | ------------------------------------------------------------------- |
-| #1, #2            | Minh Le,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan       |
-| #3, #4            | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
-| #5, #6            | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
-| #7, #8, #9, #10   | Minh Le ,Zohara Kamal, Shuvam Agarwala ,Thanoshan Vijayanandan      |
+| #1, #2            | Minh Le  |
+| #3, #4            | Zohara Kamal    |
+| #5, #6            | Shuvam Agarwala    |
+| #7, #8, #9, #10   | Thanoshan Vijayanandan      |
 
 **Division of Selenium IDE test cases**
 The functionalities tested using Selenium IDE by each member are summarized in the below table.
@@ -452,26 +470,21 @@ The functionalities tested using Selenium IDE by each member are summarized in t
 
    Later it was found that the problem is arising with newer version of the Eclipse. After downgrading Eclipse, Pitest was installed successfully.
 
-2. Another issue arose while running PIT (Pitest) in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing a compatible Java version (such as Java 8) and properly configuring Eclipse to ensure consistency across all setups.
+2. Another issue arose while running Pitest in Eclipse, where compatibility problems were encountered due to differences in Java versions across team members. In particular, one member using Java 21 was unable to execute the program successfully. The issue was resolved by aligning the development environment, including installing Java 8 and properly configuring Eclipse to ensure consistency across all setups.
 
-   ![Pitest non JRE 8 error](images/eclipse_error.png)
+   <img width="909" height="285" alt="image" src="https://github.com/user-attachments/assets/ab266c84-ed60-4040-922a-396546da681c" />
 
-4. To objective for improving mutation scores to at least 10% for each class is very difficult to obtain because we are focusing on the 5 methods of each class from the previous assignments. For example, our test cases for `DataUtilities` only yields a mutation coverage of 58% because they are designed to only cover the 5 methods from this class. If we were to delete all of the other methods besides the 5 methods that we wrote test cases for from our previous assignments, our tests yields 91% mutation coverage.
+3. After playing around with Selenium testing with some websites, we noticed that some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
 
-   ![DataUtilies only 5 methods before](images/DataUtilities_5_Methods_Before.png)
-
-   We have also written 5 test cases for the data utilities class and with those 5 test cases, we have increase the mutations killed from 400 to 405 out of 441, which means we increased it by 1%.
-
-   ![DataUtilies only 5 methods after](images/DataUtilities_5_Methods_After.png)
-
-5. Some websites add an another authentication factor like **CAPTCHA** when they detect automated interactions with their websites. So, selenium test cases that includes login pause in the middle until the tester manually deals with those CAPTCHAs.
-
-6. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
-
+4. Most of the time, Selenium IDE test cases run fine however sometimes they get stuck in the middle for no apparent reason. Manual intervention is necessary to get the test cases to run.
 
 # 15. Comments/feedback on the assignment itself
 
-1. This assignment gave us a chance to further improve our test suite using mutation testing.
+1. The assignment effectively combined theoretical concepts (mutation testing) with practical tools (Pitest and Selenium IDE), which helped reinforce our understanding through hands-on experience.
 
-2. The assignment description document is very detailed and comprehensive, and it was easy to follow.
+2. It showed the importance of writing strong test cases beyond just achieving high coverage.
+
+3. We gained experience with UI testing using Selenium IDE and learned its limitations. However, Pitest and Selenium IDE were difficult to set up and use due to compatibility issues.
+
+4. The assignment description document is very detailed and comprehensive, and it was easy to follow.
 
