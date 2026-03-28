@@ -11,21 +11,21 @@
 
 # Table of Contents
 
-1. [Introduction](#1-introduction)  
-2. [Analysis of 10 Mutants of the Range Class](#2-analysis-of-10-mutants-of-the-range-class)  
-3. [Mutation Score and Statistics](#3-mutation-score-and-statistics)  
-4. [Effectiveness of Test Classes](#4-effectiveness-of-test-classes)  
-5. [Equivalent Mutants and Mutation Score Accuracy](#5-equivalent-mutants-and-mutation-score-accuracy)  
-6. [Improving Mutation Score](#6-improving-mutation-score)  
-7. [Mutation Testing: Advantages and Disadvantages](#7-mutation-testing-advantages-and-disadvantages)  
-8. [Selenium Test Case Design Process](#8-selenium-test-case-design-process)  
-9. [Use of Assertions and Checkpoints](#9-use-of-assertions-and-checkpoints)  
-10. [Testing with Different Test Data](#10-testing-with-different-test-data)  
-11. [Selenium vs SikuliX](#11-selenium-vs-sikulix)  
-12. [Selenium IDE Limitations](#12-selenium-ide-limitations)  
-13. [Division of Team Work](#13-division-of-team-work)  
-14. [Challenges and Lessons Learned](#14-challenges-and-lessons-learned)  
-15. [Comments and Feedback](#15-comments-and-feedback)  
+1. [Introduction](#1-introduction)
+2. [Analysis of 10 Mutants of the Range Class](#2-analysis-of-10-mutants-of-the-range-class)
+3. [Mutation Score and Statistics](#3-report-all-the-statistics-and-the-mutation-score-for-each-test-class)
+4. [Effectiveness of Test Classes](#4-analysis-drawn-on-the-effectiveness-of-each-of-the-test-classes)
+5. [Equivalent Mutants and Mutation Score Accuracy](#5-a-discussion-on-the-effect-of-equivalent-mutants-on-mutation-score-accuracy)
+6. [Improving Mutation Score](#6-a-discussion-of-what-could-have-been-done-to-improve-the-mutation-score-of-the-test-suites)
+7. [Mutation Testing: Advantages and Disadvantages](#7-why-do-we-need-mutation-testing-advantages-and-disadvantages-of-mutation-testing)
+8. [Selenium Test Case Design Process](#8-selenuim-test-case-design-process)
+9. [Use of Assertions and Checkpoints](#9-the-use-of-assertions-and-checkpoints)
+10. [Testing with Different Test Data](#10-test-each-functionaity-with-different-test-data)
+11. [Selenium vs SikuliX](#11-selenium-vs-sikulix)
+12. [Selenium IDE Limitations](#12-selenium-ide-outdated)
+13. [Division of Team Work](#13-division-of-team-work)
+14. [Challenges and Lessons Learned](#14-difficulties-encountered-challenges-overcome-and-lessons-learned)
+15. [Comments and Feedback](#15-commentsfeedback-on-the-assignment-itself) 
 
 # 1. Introduction
 In this assignment, we explored mutation testing with the help of Pitest eclipse plugin to see how good our test suite is in catching bugs. Then, we improved our test suite by adding more test cases which would increase our mutation score by atleast 10%.
